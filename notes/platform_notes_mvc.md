@@ -125,3 +125,22 @@ public IACtionResult Other()
     // Return a view
 }
 ```
+
+## Linking views to a controller
+
+__1. Make a subfolder within views that matches the name of your controller.__
+- E.g. UsersController -> "Users" directory within "Views" directory
+- If a view is to be shared by multiple controllers, add to the "Shared" directory.
+
+__2. Add method to controller.__
+
+```csharp
+[HttpGet]
+[Route("")]
+public IActionResult Index()
+{
+    return View(); 
+    // or return View("Index");
+    // Both will render the same view (only use one!)
+}
+```

@@ -15,22 +15,9 @@ namespace RapperAPI.Controllers
         //It just display some basic information on how this API functions
         [Route("")]
         [HttpGet]
-        public string Index()
+        public IActionResult Index()
         {
-            //String describing the API functionality
-            string instructions = "Welcome to the Rapper API~~\n========================\n";
-            instructions += "    Use the route /artists/ to get artist info.\n";
-            instructions += "    End-points:\n";
-            instructions += "       *Name/{string}\n";
-            instructions += "       *RealName/{string}\n";
-            instructions += "       *Hometown/{string}\n";
-            instructions += "       *GroupId/{int}\n\n";
-            instructions += "    Use the route /groups/ to get group info.\n";
-            instructions += "    End-points:\n";
-            instructions += "       *Name/{string}\n";
-            instructions += "       *GroupId/{int}\n";
-            instructions += "       *ListArtists=?(true/false)\n";
-            return instructions;
+            return View();
         }
 
         [HttpGet]
@@ -114,6 +101,5 @@ namespace RapperAPI.Controllers
             }
             return Json(groups);
         }
-
     }
 }
