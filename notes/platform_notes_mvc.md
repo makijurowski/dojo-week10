@@ -63,7 +63,7 @@ _* Project default_
 
 ## Adding routes to a controller
 
-__0. Change default routing in Startup.cs__
+__1. Change default routing in Startup.cs__
 
 ```csharp
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -73,7 +73,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     }
 ```
 
-__1. GET method__
+__2. GET method__
 
 ```csharp
 [HttpGet]
@@ -84,7 +84,7 @@ public string Index(string Name)
 }
 ```
 
-__2. GET method returning JSON*__
+__3. GET method returning JSON*__
 
 ```csharp
 [HttpGet]
@@ -97,7 +97,7 @@ public JsonResult DisplayInt()
 
 _* Json() Can return any object, even classes_
 
-__3. GET method returning JSON with an anonymous object*__
+__4. GET method returning JSON with an anonymous object*__
 
 ```csharp
 [HttpGet]
@@ -115,7 +115,7 @@ public JsonResult DisplayInt()
 
 _* Used to return values of varying types_
 
-  __4. POST method__
+  __5. POST method__
 
 ```csharp
 [HttpPost]
@@ -129,6 +129,7 @@ public IACtionResult Other()
 ## Linking views to a controller
 
 __1. Make a subfolder within views that matches the name of your controller.__
+
 - E.g. UsersController -> "Users" directory within "Views" directory
 - If a view is to be shared by multiple controllers, add to the "Shared" directory.
 
@@ -139,8 +140,38 @@ __2. Add method to controller.__
 [Route("")]
 public IActionResult Index()
 {
-    return View(); 
+    return View();
     // or return View("Index");
     // Both will render the same view (only use one!)
 }
 ```
+
+## Add C# Code to .CSHTML (Razor View Engine)
+
+__Examples:*__
+
+```csharp
+<body>
+    @{
+        var StringList = new List<string>{
+                                "one",
+                                "two",
+                                "three",
+                                "four"
+                            };
+
+        foreach(var word in StringList)
+        {
+            <div>
+                <p>@word</p>
+                @if(word.Length < 4)
+                {
+                    <p>@word is a short word</p>
+                }
+            </div>
+        }
+    }
+</body>
+```
+
+_*Must use @ symbol in front of "word" to use as a variable_
