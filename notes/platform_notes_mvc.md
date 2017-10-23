@@ -28,7 +28,7 @@ export ASPNETCORE_ENVIRONMENT=Production
 _* Project default_
 
 ## Adding routes to a controller
-1. GET method
+_1. GET method_
 ```
 [HttpGet]
 [Route("index")]
@@ -38,7 +38,7 @@ public string Index(string Name)
 }
 ```
 
-2. GET method returning JSON*
+_2. GET method returning JSON*_
 ```
 [HttpGet]
 [Route("")]
@@ -49,7 +49,7 @@ public JsonResult DisplayInt()
 ```
 _* Json() Can return any object, even classes_
 
-3. GET method returning JSON with an anonymous object*
+_3. GET method returning JSON with an anonymous object*_
 ```
 [HttpGet]
 [Route("displayint")]
@@ -66,7 +66,7 @@ public JsonResult DisplayInt()
 _* Used to return values of varying types_
 
   
-4. POST method
+_4. POST method_
 ```
 [HttpPost]
 [Route("")]
