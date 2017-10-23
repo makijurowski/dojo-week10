@@ -239,7 +239,7 @@ $(document).ready(function(){
     // For an external request
     $.get("http://pokeapi.co/api/v2/pokemon/1", function(response){
         // Handle the response data
-    })
+    });
     // For a back-end request
     $.get("/getusers", function(response){
         // Handle the response data
@@ -317,9 +317,9 @@ public class SecondController : Controller
 
 - Can only use Session to hold onto integers & strings by default
 - To store a string in session, use ".SetString" (first string is key, second is value to retrieve)
-- To retrieve a string from session, use ".GetString"
+    - To retrieve a string from session, use ".GetString"
 - To store an int, use ".SetInt32"
-- To retrieve an int, use ".GetInt32"
+    - To retrieve an int, use ".GetInt32"
 
 __1. Add to Startup.cs:__
 
@@ -356,7 +356,7 @@ string LocalVariable = HttpContext.Session.GetString("UserName", 28);
 int? IntVariable = HttpContext.Session.GetInt32("UserAge");
 ```
 
-_*Must use int? instead of int because int? is nullable.
+_*Must use int? instead of int because int? is nullable._
 
 - Clear session using the Clear() method
 
@@ -380,11 +380,11 @@ public static class SessionExtensions
         session.SetString(key, JsonConvert.SerializeObject(value));
     }
 
-    // Generic type T is a stand-in indicating that we need to specify the type on retrieval
+    // Generic type T is a stand-in indicating need to specify the type on retrieval
     public static T GetObjectFromJson<T>(this ISession session, string key)
     {
         string value = session.GetString(key);
-        // When retrieving, the object is deserialized based on the type we specified
+        // When retrieving, the object is deserialized based on type specified
         return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
     }
 }
@@ -397,15 +397,15 @@ List<object> NewList = new List<object>();
 
 HttpContext.Session.SetObjectAsJson("The List", NewList);
 
-// Specify List type on retrieval
+// Specify List type for retrieval
 List<object> Retrieve = HttpContext.Session.GetObjectFromJson<List<object>>("TheList");
 ```
 
-## TempData
+## Using TempData to Persist Data with Redirect
 
 - Used to pass more complex data from one method to another when redirecting
 - TempData is like a temporary session that only persists across one redirect
-- Built ontop of session, therefore cannot be used without enabling the session
+- Built ontop of session, therefore cannot be used without enabling a session
 
 ```csharp
 using Microsoft.AspNetCore.Http;
