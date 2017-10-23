@@ -65,8 +65,7 @@ public JsonResult DisplayInt()
 ```
 _* Used to return values of varying types_
 
-  
-__4. POST method__
+  __4. POST method__
 ```
 [HttpPost]
 [Route("")]
