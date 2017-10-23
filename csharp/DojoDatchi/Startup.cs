@@ -27,22 +27,22 @@ namespace DojoDatchi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder App, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                App.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                App.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
+            App.UseStaticFiles();
 
-            app.UseMvc();
+            App.UseMvc();
 
-            app.UseSession();
+            App.UseSession();
 
             loggerFactory.AddConsole();
         }
