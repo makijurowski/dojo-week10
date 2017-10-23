@@ -1,32 +1,41 @@
 # Creating an MVC Project in VSCode
 
 ## Start MVC Project
-```
+
+```bash
 dotnet new mvc
 ```
 
 ## Add Watcher Tools to a Project
+
 1. Edit .csproj file to include:
-```
+
+```XML
 <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
-</ItemGroup> 
+</ItemGroup>
 ```
+
 2. Run commands
-```
+
+```bash
 dotnet restore
-dotnet watch run 
+dotnet watch run
 ```
 
 ## Add Logging Tools to a Project
+
 1. Edit .csproj file to include:
-```
+
+```XML
 <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
 </ItemGroup>
 ```
+
 2. Add to Startup.cs
-```
+
+```csharp
 using Microsoft.Extensions.Logging
 ...
 public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -37,19 +46,26 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerF
 ```
 
 ## Change work environment for testing (MacOS/Linux)
+
 __To development:__
-```
+
+```bash
 export ASPNETCORE_ENVIRONMENT=Development
 ```
+
 __To production:*__
-```
+
+```bash
 export ASPNETCORE_ENVIRONMENT=Production
 ```
+
 _* Project default_
 
 ## Adding routes to a controller
+
 __0. Change default routing in Startup.cs__
-```
+
+```csharp
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     {
         ...
@@ -58,7 +74,8 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 ```
 
 __1. GET method__
-```
+
+```csharp
 [HttpGet]
 [Route("index")]
 public string Index(string Name)
@@ -68,7 +85,8 @@ public string Index(string Name)
 ```
 
 __2. GET method returning JSON*__
-```
+
+```csharp
 [HttpGet]
 [Route("")]
 public JsonResult DisplayInt()
@@ -76,10 +94,12 @@ public JsonResult DisplayInt()
     return Json(24);
 }
 ```
+
 _* Json() Can return any object, even classes_
 
 __3. GET method returning JSON with an anonymous object*__
-```
+
+```csharp
 [HttpGet]
 [Route("displayint")]
 public JsonResult DisplayInt()
@@ -92,10 +112,12 @@ public JsonResult DisplayInt()
     return Json(AnonObject);
 }
 ```
+
 _* Used to return values of varying types_
 
   __4. POST method__
-```
+
+```csharp
 [HttpPost]
 [Route("")]
 public IACtionResult Other()
