@@ -8,7 +8,7 @@ dotnet new mvc
 
 ## Add Watcher Tools to a Project
 
-1. Edit .csproj file to include:
+__1. Edit .csproj file to include:__
 
 ```XML
 <ItemGroup>
@@ -16,7 +16,7 @@ dotnet new mvc
 </ItemGroup>
 ```
 
-2. Run commands
+__2. Run commands in terminal:__
 
 ```bash
 dotnet restore
@@ -25,7 +25,7 @@ dotnet watch run
 
 ## Add Logging Tools to a Project
 
-1. Edit .csproj file to include:
+__1. Edit project.csproj file to include:__
 
 ```XML
 <ItemGroup>
@@ -33,7 +33,7 @@ dotnet watch run
 </ItemGroup>
 ```
 
-2. Add to Startup.cs
+__2. Add to Startup.cs:__
 
 ```csharp
 using Microsoft.Extensions.Logging
@@ -115,7 +115,7 @@ public JsonResult DisplayInt()
 
 _* Used to return values of varying types_
 
-  __5. POST method__
+__5. POST method__
 
 ```csharp
 [HttpPost]
@@ -175,3 +175,118 @@ __Examples:*__
 ```
 
 _*Must use @ symbol in front of "word" to use as a variable_
+
+## Submitting forms
+
+- Make sure each form input field has a name
+- Use the same name to pass values as parameter to controller method
+- Names MUST match!
+
+__1. Add within .CSHTML file:__
+
+```HTML
+<form action="method" method="post">
+    <input type="text" name="TextField" />
+    <input type="number" step="1" name="NumberField" />
+    <button type="submit">Submit</button>
+</form>
+```
+
+__2. Add to controller.cs file:__
+
+```csharp
+[HttpPost]
+[Route("method")]
+public IActionResult Method(string TextField, int NumberField)
+{
+    // Use form input values here
+}
+```
+
+## Using ViewBag to send data to front-end
+
+- ViewBag is a special dictionary that only persists over one view return (i.e. not through redirects)
+- Must be set within the view method we want to send the data to
+
+__1. Add to controller.cs file:__
+
+```csharp
+[HttpGet]
+[Route("")]
+public IActionResult Index()
+{
+    ViewBag.Example = "Hello World!";
+    return View();
+}
+```
+
+__2. Add to .CSHTML file:__
+
+```csharp
+<h1>@ViewBag.Example</h1>
+
+// Alternatively can also declare & use inline:
+@{
+    string LocalString = ViewBag.Example + " Nice to see you!";
+}
+<h1>@LocalString</h1>
+```
+
+## Using Ajax/jQuery with JSON data
+
+```javascript
+$(document).ready(function(){
+    // For an external request
+    $.get("http://pokeapi.co/api/v2/pokemon/1", function(response){
+        // Handle the response data
+    })
+    // For a back-end request
+    $.get("/getusers", function(response){
+        // Handle the response data
+    });
+});
+```
+
+## Redirecting to other controller methods
+
+- Use the RedirectToAction() response method
+- Pass another method within controller as a string parameter
+    - e.g. RedirectToAction("OtherMethod)
+
+```csharp
+public class FirstController : Controller
+{
+    public IActionResult Method()
+    {
+        // Redirects to the "OtherMethod" method
+        return RedirectToAction("OtherMethod")
+    }
+
+    public IActionResult OtherMethod()
+    {
+        return View();
+    }
+}
+```
+
+- Can also pass in additional parameters
+
+```csharp
+public class FirstController : Controller
+{
+    public IActionResult Method()
+    {
+        // Uses an anonymous object consisting of keys & values
+        // Keys must match parameter names in the method that's being redirected 
+        return RedirectToAction("OtherMethod", new { Food = "sandwiches", Quantity = 5});
+    }
+
+    [HttpGet]
+    [Route("other/{Food})"]
+    public IActionResult OtherMethod(string Food, int Quantity)
+    {
+        Console.WriteLine($"I ate {Quantity} {Food}.");
+        // Prints "I ate 5 sandwiches."
+    }
+}
+```
