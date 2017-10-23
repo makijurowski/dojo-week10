@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using JsonData;
 
-namespace MusicApi.Controllers {
-    public class GroupController : Controller {
-        List<Group> allGroups {get; set;}
-        public GroupController() {
+namespace RapperAPI.Controllers {
+    public class GroupController : Controller 
+    {
+        public List<Group> allGroups {get; set;}
+
+        public GroupController() 
+        {
             allGroups = JsonToFile<Group>.ReadJson();
         }
 

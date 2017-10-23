@@ -5,33 +5,115 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RapperAPI.Models;
+using JsonData;
 
 namespace RapperAPI.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ArtistController
     {
-        public IActionResult Index()
+        //This method is shown to the user navigating to the default API domain name
+        //It just display some basic information on how this API functions
+        [Route("")]
+        [HttpGet]
+        public string Index()
         {
-            return View();
+            //String describing the API functionality
+            string instructions = "Welcome to the Rapper API~~\n========================\n";
+            instructions += "    Use the route /artists/ to get artist info.\n";
+            instructions += "    End-points:\n";
+            instructions += "       *Name/{string}\n";
+            instructions += "       *RealName/{string}\n";
+            instructions += "       *Hometown/{string}\n";
+            instructions += "       *GroupId/{int}\n\n";
+            instructions += "    Use the route /groups/ to get group info.\n";
+            instructions += "    End-points:\n";
+            instructions += "       *Name/{string}\n";
+            instructions += "       *GroupId/{int}\n";
+            instructions += "       *ListArtists=?(true/false)\n";
+            return instructions;
         }
 
-        public IActionResult About()
+        [HttpGet]
+        [Route("artists")]
+        public JsonResult AllArtists()
         {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
+            return Json(allArtists);
         }
 
-        public IActionResult Contact()
+        [HttpGet]
+        [Route("artists/name/{name}")]
+        public JsonResult ArtistsByName(string name)
         {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
+            string artistName = name.ToLower();
+            IEnumerable<Artist> currentArtist = allArtists.Where(artist => artist.ArtistName.ToLower() == artistName);
+            return Json(currentArtist);
         }
 
-        public IActionResult Error()
+        [HttpGet]
+        [Route("artists/realname/{rname}")]
+        public JsonResult ArtistsByRealName(string rname)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            string realName = rname.ToLower();
+            IEnumerable<Artist> currentArtist = allArtists.Where(artist => artist.RealName.ToLower().Contains(realName));
+            return Json(currentArtist);
         }
+
+        [HttpGet]
+        [Route("artists/hometown/{town}")]
+        public JsonResult ArtistsByHometown(string town)
+        {
+            string artistTown = town.ToLower();
+            IEnumerable<Artist> currentArtist = allArtists.Where(artist => artist.Hometown.ToLower().Contains(town));
+            return Json(currentArtist);
+        }
+
+        [HttpGet]
+        [Route("artists/groupid/{id}")]
+        public JsonResult ArtistsByGroupId(int id)
+        {
+            int groupId = id;
+            IEnumerable<Artist> currentArtist = allArtists.Where(artist => artist.GroupId == groupId);
+            return Json(currentArtist);
+        }
+
+        [HttpGet]
+        [Route("groups")]
+        public JsonResult AllGroups()
+        {
+            return Json(allGroups);
+        }
+
+        [HttpGet]
+        [Route("groups/name/{name}")]
+        public JsonResult GroupsByName(string name)
+        {
+            string groupName = name.ToLower();
+            IEnumerable<Group> currentGroups = allGroups.Where(group => group.GroupName.ToLower().Contains(groupName));
+            return Json(currentGroups);
+        }
+
+        [HttpGet]
+        [Route("groups/id/{id}")]
+        [Route("groups/id/{id}/{display}")]
+        public JsonResult GroupById(int id, bool display)
+        {
+            int groupId = id;
+            bool displayArtists = display; 
+            var groups = allGroups.Where(group => group.Id == groupId);
+
+            if(displayArtists)
+            {
+                groups = groups.GroupJoin(allArtists,
+                group => group.Id,
+                artists => artists.GroupId,
+                (group, artists) => 
+                {
+                    group.Members = artists.ToList();
+                    return group;
+                });
+            }
+            return Json(groups);
+        }
+
     }
 }
