@@ -4,30 +4,20 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using DojoDatchi.Models;
 
 namespace DojoDatchi.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        [HttpGet]
+        [Route("dojodachi")]
+        public IActionResult Dojodachi(int Fullness=20, int Happiness=20, int Meals=3, int Energy=50)
         {
+            
             return View();
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
+        } 
 
         public IActionResult Error()
         {
