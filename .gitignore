@@ -1,4 +1,5 @@
 # VSCode files
+*.vscode/*
 .vscode/*
 .vscode/settings.json
 .vscode/tasks.json
@@ -210,3 +211,7 @@ $RECYCLE.BIN/
 #####
 *.zip
 *.bak
+
+# User-specific
+csharp/TimeDisplay/.vscode/launch.json
+csharp/TimeDisplay/.vscode/tasks.json
