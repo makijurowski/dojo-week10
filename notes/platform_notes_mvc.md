@@ -17,18 +17,18 @@ dotnet watch run
 ```
 
 ## Change work environment for testing (MacOS/Linux)
-To development:
+__To development:__
 ```
 export ASPNETCORE_ENVIRONMENT=Development
 ```
-To production:*
+__To production:*__
 ```
 export ASPNETCORE_ENVIRONMENT=Production
 ```
 _* Project default_
 
 ## Adding routes to a controller
-1. GET method
+__1. GET method__
 ```
 [HttpGet]
 [Route("index")]
@@ -38,7 +38,7 @@ public string Index(string Name)
 }
 ```
 
-2. GET method returning JSON*
+__2. GET method returning JSON*__
 ```
 [HttpGet]
 [Route("")]
@@ -49,7 +49,7 @@ public JsonResult DisplayInt()
 ```
 _* Json() Can return any object, even classes_
 
-3. GET method returning JSON with an anonymous object*
+__3. GET method returning JSON with an anonymous object*__
 ```
 [HttpGet]
 [Route("displayint")]
@@ -66,7 +66,7 @@ public JsonResult DisplayInt()
 _* Used to return values of varying types_
 
   
-4. POST method
+__4. POST method__
 ```
 [HttpPost]
 [Route("")]
