@@ -290,3 +290,103 @@ public class FirstController : Controller
     }
 }
 ```
+
+- To redirect to another controller's method, must specify the controller name as well as the method name
+
+```csharp
+public class FirstController : Controller
+{
+    public IActionResult Method()
+    {
+        return RedirectToAction("Other Method", "Second");
+        // "Second" refers to the SecondController class
+    }
+}
+
+// Within another file
+public class SecondController : Controller
+{
+    public IActionResult OtherMethod()
+    {
+        return View();
+    }
+}
+```
+
+## Session and TempData
+
+- Can only use Session to hold onto integers & strings by default
+- To store a string in session, use ".SetString" (first string is key, second is value to retrieve)
+- To retrieve a string from session, use ".GetString"
+- To store an int, use ".SetInt32"
+- To retrieve an int, use ".GetInt32"
+
+__1. Add to Startup.cs:__
+
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    ...
+    services.AddSession();
+}
+
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+{
+    ...
+    app.UseSession();
+}
+```
+
+__2. Add to controller.cs file:*__
+
+```csharp
+using Microsoft.AspNetCore.Http;
+...
+
+// Set session variable
+HttpContext.Session.SetString("UserName", "Samantha");
+
+// Retrieve session variable
+string LocalVariable = HttpContext.Session.GetString("UserName");
+
+// Store an int in session
+string LocalVariable = HttpContext.Session.GetString("UserName", 28);
+
+// Retrieve an int in session
+int? IntVariable = HttpContext.Session.GetInt32("UserAge");
+```
+
+_*Must use int? instead of int because int? is nullable.
+
+- Clear session using the Clear() method
+
+```csharp
+HttpContext.Session.Clear();
+```
+
+## Using Session to Serialize Objects as JSON Strings
+- Can call SetObjectAsJson just like other session set methods by passing a key and a value
+- Use the following code somewhere in your namespace, outside other classes
+
+```csharp
+using Newtonsoft.Json;
+
+public static class SessionExtensions
+{
+    public static void SetObjectAsJson(this ISession session, string key, object value)
+    {
+        // Helper function to serialize the object to JSON and store it as a string in session
+        session.SetString(key, JsonConvert.SerializeObject(value));
+    }
+
+    // Generic type T is a stand-in indicating that we need to specify the type on retrieval
+    public static T GetObjectFromJson<T>(this ISession session, string key)
+    {
+        string value = session.GetString(key);
+        // When retrieving, the object is deserialized based on the type we specified
+        return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
+    }
+}
+```
+
+- 
