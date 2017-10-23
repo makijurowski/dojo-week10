@@ -10,23 +10,17 @@ namespace CallingCard.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        [HttpGet]
+        [Route("{fname}/{lname}/{age}/{color}")]
+        public JsonResult JsonProcessor(string fname, string lname, int age, string color)
         {
-            return View();
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
+            var UserInfo = new {
+                FirstName = fname,
+                LastName = lname,
+                Age = age,
+                FavoriteColor = color,
+            };
+            return Json(UserInfo);
         }
 
         public IActionResult Error()

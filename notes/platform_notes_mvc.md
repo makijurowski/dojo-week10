@@ -1,3 +1,5 @@
+# Creating an MVC Project in VSCode
+
 ## Start MVC Project
 ```
 dotnet new mvc
@@ -44,7 +46,7 @@ __2. GET method returning JSON*__
 [Route("")]
 public JsonResult DisplayInt()
 {
-    return Json(24)
+    return Json(24);
 }
 ```
 _* Json() Can return any object, even classes_
