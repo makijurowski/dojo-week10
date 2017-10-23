@@ -277,7 +277,7 @@ public class FirstController : Controller
     public IActionResult Method()
     {
         // Uses an anonymous object consisting of keys & values
-        // Keys must match parameter names in the method that's being redirected 
+        // Keys must match parameter names in the method that's being redirected
         return RedirectToAction("OtherMethod", new { Food = "sandwiches", Quantity = 5});
     }
 
@@ -313,7 +313,7 @@ public class SecondController : Controller
 }
 ```
 
-## Session and TempData
+## Session
 
 - Can only use Session to hold onto integers & strings by default
 - To store a string in session, use ".SetString" (first string is key, second is value to retrieve)
@@ -365,6 +365,7 @@ HttpContext.Session.Clear();
 ```
 
 ## Using Session to Serialize Objects as JSON Strings
+
 - Can call SetObjectAsJson just like other session set methods by passing a key and a value
 - Use the following code somewhere in your namespace, outside other classes
 
@@ -389,4 +390,36 @@ public static class SessionExtensions
 }
 ```
 
-- 
+__Use inside a controller method:__
+
+```csharp
+List<object> NewList = new List<object>();
+
+HttpContext.Session.SetObjectAsJson("The List", NewList);
+
+// Specify List type on retrieval
+List<object> Retrieve = HttpContext.Session.GetObjectFromJson<List<object>>("TheList");
+```
+
+## TempData
+
+- Used to pass more complex data from one method to another when redirecting
+- TempData is like a temporary session that only persists across one redirect
+- Built ontop of session, therefore cannot be used without enabling the session
+
+```csharp
+using Microsoft.AspNetCore.Http;
+
+...
+public IActionResult Method()
+{
+    TempData["Variable"] = "Hello World";
+    return RedirectToAction("OtherMethod");
+}
+
+public IActionResult OtherMethod()
+{
+    Console.WriteLine(TempData["Variable"]);
+    // Prints "Hello World" when redirected to from Method()
+}
+```
