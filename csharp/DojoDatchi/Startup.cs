@@ -22,13 +22,14 @@ namespace DojoDatchi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
             services.AddSession();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder App, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole();
             if (env.IsDevelopment())
             {
                 App.UseDeveloperExceptionPage();
@@ -37,14 +38,9 @@ namespace DojoDatchi
             {
                 App.UseExceptionHandler("/Home/Error");
             }
-
-            App.UseStaticFiles();
-
-            App.UseMvc();
-
             App.UseSession();
-
-            loggerFactory.AddConsole();
+            App.UseStaticFiles();
+            App.UseMvc();
         }
     }
 }

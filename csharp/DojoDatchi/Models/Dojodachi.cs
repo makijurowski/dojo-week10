@@ -1,13 +1,13 @@
 namespace DojoDatchi
 {
-    public class Dojodachi
+    public class DojodachiInfo
     {
         public int Fullness { get; set; }
         public int Happiness { get; set; }
         public int Meals { get; set; }
         public int Energy { get; set; }
 
-        public Dojodachi()
+        public DojodachiInfo()
         {
             Fullness = 20;
             Happiness = 20;

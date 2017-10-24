@@ -6,37 +6,31 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using DojoDatchi.Models;
 
 namespace DojoDatchi.Controllers
 {
     public class HomeController : Controller
     {
-        public Dojodachi currentDachi = new Dojodachi();
+        // private static DojodachiInfo myDachi { get; set; }
 
         [HttpGet]
-        [Route("index")]
+        [Route("dojodachi")]
         public IActionResult Dojodachi()
         {
-            currentDachi = HttpContext.Session.GetObjectFromJson<Dojodachi>("Dojodachi");
-
-            if (currentDachi == null)
+            var myDachi = HttpContext.Session.GetObjectFromJson<DojodachiInfo>("myDachi");
+            if (myDachi == null)
             {
-                HttpContext.Session.SetObjectAsJson("Dojodachi", new Dojodachi());
+                myDachi = new DojodachiInfo();
+                HttpContext.Session.SetObjectAsJson("myDachi", new DojodachiInfo());
             }
 
-            ViewBag.Dojodachi = HttpContext.Session.GetObjectFromJson<Dojodachi>("Dojodachi");
+            ViewBag.Dojodachi = myDachi;
             ViewBag.Status = "playing";
             ViewBag.Reaction = "";
             ViewBag.Message = "Welcome to Dojodachi! Ain't he a cutie?";
 
             return View();
         } 
-
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 
     public static class SessionExtensions
@@ -48,7 +42,7 @@ namespace DojoDatchi.Controllers
 
         public static T GetObjectFromJson<T>(this ISession session, string key)
         {
-            string value= session.GetString(key);
+            var value= session.GetString(key);
             return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
     }
