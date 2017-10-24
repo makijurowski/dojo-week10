@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace DojoDatchi.Controllers
 {
-    public class HomeController : Controller
+    public class DojodachiController : Controller
     {
         // Dojodachi index
         [HttpGet]
