@@ -65,23 +65,31 @@ namespace DojoDatchi.Controllers
                     }
                     else
                     {
-                        ViewBag.Reaction = "";
-                        ViewBag.Message = "You have no food left to feed Dojodachi! Put that kitty to work!";
+                        ViewBag.Reaction = "You have no food left to feed Dojodachi! Put that kitty to work!";
                         ViewBag.Image = "/images/dojodachi_angry2.gif";
                     }
                     break;
                 case "Play":
                     if (myDachi.Energy > 0)
                     {
-                        myDachi.Energy -= 5;
-                        myDachi.Happiness += GameRandom.Next(5, 11);
-                        ViewBag.Reaction = "Dojodachi is happy to play with you!";
-                        ViewBag.Image = "/images/dojodachi_playing.gif";
+                        int RandomChance = GameRandom.Next(1, 5);
+                        if (RandomChance == 1)
+                        {
+                            myDachi.Energy -= 5;
+                            myDachi.Happiness += GameRandom.Next(5, 11);
+                            ViewBag.Reaction = "Dojodachi is happy to play with you!";
+                            ViewBag.Image = "/images/dojodachi_playing.gif";
+                        }
+                        else
+                        {
+                            myDachi.Energy -= 5;
+                            ViewBag.Reaction = "Dojodachi doesn't want to play with you right now.";
+                            ViewBag.Image = "/images/dojodachi_noplay.gif";
+                        }
                     }
                     else
                     {
-                        ViewBag.Reaction = "";
-                        ViewBag.Message = "Dojodachi is feeling too lazy to play! Perhaps he needs more energy first.";
+                        ViewBag.Reaction = "Dojodachi is feeling too lazy to play! Perhaps he needs more energy first.";
                         ViewBag.Image = "/images/dojodachi_lazy.gif";
                     }
                     break;
@@ -95,8 +103,7 @@ namespace DojoDatchi.Controllers
                     }
                     else
                     {
-                        ViewBag.Reaction = "";
-                        ViewBag.Message = "Dojodachi tried to go to work, but had no energy and fell asleep instead.";
+                        ViewBag.Reaction = "Dojodachi tried to go to work, but had no energy and fell asleep instead.";
                         ViewBag.Image = "/images/dojodachi_tired.gif";
                     }
                     break;
@@ -116,7 +123,7 @@ namespace DojoDatchi.Controllers
             {
                 ViewBag.Status = "gameover";
                 ViewBag.Reaction = "";
-                ViewBag.Message = "You won the game!";
+                ViewBag.Message = "You won the game! Dojodachi loves you forever!";
                 ViewBag.Image = "/images/dojodachi_happy.gif";
             }
             // Player lost the game
@@ -124,7 +131,7 @@ namespace DojoDatchi.Controllers
             {
                 ViewBag.Status = "gameover";
                 ViewBag.Reaction = "";
-                ViewBag.Message = "You lost the game!";
+                ViewBag.Message = "You lost the game! Dojodachi wants a new owner!";
                 ViewBag.Image = "/images/dojodachi_angry2.gif";
             }
             // Save myDachi information to session
