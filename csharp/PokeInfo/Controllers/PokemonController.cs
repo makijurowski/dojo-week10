@@ -11,7 +11,6 @@ namespace pokeinfo.Controllers
 {
     public class PokemonController : Controller
     {
-        // GET: /index/
         [HttpGet]
         [Route("")]
         public IActionResult Index()
@@ -19,19 +18,15 @@ namespace pokeinfo.Controllers
             return View();
         }
 
-        // GET: /pokemon/pokeid
         [HttpGet]
         [Route("pokemon/{pokeid}")]
         public IActionResult QueryPoke(int pokeid)
         {
-            // var myPokemon = new Pokemon();
             var PokeInfo = new Dictionary<string, object>();
             WebRequest.GetPokemonDataAsync(pokeid, ApiResponse =>
                 {
                     PokeInfo = ApiResponse;
-                    // myPokemon = ApiResponse;
                     System.Console.WriteLine("PokeInfo: " + PokeInfo);
-                    // System.Console.WriteLine("myPokemon: " + myPokemon);
                 }
             ).Wait();
             ViewBag.Pokemon = PokeInfo;
