@@ -76,15 +76,15 @@ namespace DojoDatchi.Controllers
                         if (RandomChance == 1)
                         {
                             myDachi.Energy -= 5;
-                            myDachi.Happiness += GameRandom.Next(5, 11);
-                            ViewBag.Reaction = "Dojodachi is happy to play with you!";
-                            ViewBag.Image = "/images/dojodachi_playing.gif";
+                            ViewBag.Reaction = "Dojodachi doesn't want to play with you right now.";
+                            ViewBag.Image = "/images/dojodachi_noplay.gif";
                         }
                         else
                         {
                             myDachi.Energy -= 5;
-                            ViewBag.Reaction = "Dojodachi doesn't want to play with you right now.";
-                            ViewBag.Image = "/images/dojodachi_noplay.gif";
+                            myDachi.Happiness += GameRandom.Next(5, 11);
+                            ViewBag.Reaction = "Dojodachi is happy to play with you!";
+                            ViewBag.Image = "/images/dojodachi_playing.gif";
                         }
                     }
                     else
