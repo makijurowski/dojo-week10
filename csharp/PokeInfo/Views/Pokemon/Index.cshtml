@@ -1,0 +1,17 @@
+@{
+    ViewData["Title"] = "PokeInfo Page";
+}
+
+<h1>PokeInfo API</h1>
+<p>Point URL to /pokemon/id</p>
+
+@{
+    if (@ViewBag.Pokemon != null){
+        <div class="container">
+            <h3>Name: @ViewBag.Name</h3>
+            <h3>Height: @ViewBag.Height</h3>
+            <h3>Weight: @ViewBag.Weight</h3>
+            <h3>Primary Type: @ViewBag.Type</h3>
+        </div>
+    };
+}
