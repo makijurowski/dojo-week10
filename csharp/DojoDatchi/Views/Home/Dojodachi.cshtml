@@ -3,57 +3,75 @@
 }
 
 <div class="row">
-    <div class="col-md-1"> </div>
-    <div class="col-md-10">
+    <div class="col-sm-1"> </div>
+    <div class="col-sm-10">
         <div class="row">
-            <h1 class="lead text-center alert alert-info">Dojodachi</h1>
+            <h1 class="text-center alert alert-danger">Dojodachi</h1>
         </div>
         <div class="row text-center well well-lg">
-            <div class="col-md-2"></div>
-            <div class="col-md-2">
+            <div class="col-sm-3">
                 <b>Fullness:</b> @ViewBag.Dojodachi.Fullness
             </div>
-            <div class="col-md-2">
+            <div class="col-sm-3">
                 <b>Happiness:</b> @ViewBag.Dojodachi.Happiness
             </div>
-            <div class="col-md-2">
+            <div class="col-sm-3">
                 <b>Meals:</b> @ViewBag.Dojodachi.Meals
             </div>
-            <div class="col-md-2">
+            <div class="col-sm-3">
                 <b>Energy:</b> @ViewBag.Dojodachi.Energy
             </div>
-            <div class="col-md-2"></div>
         </div>
         <div class="row text-center">
-            <img src="/images/dojodachi2.gif">
+            <img src=@ViewBag.Image class="pusheen">
         </div>
-        <div class="row text-center alert alert-info">
-            @ViewBag.Message
+        <div class="row text-center alert alert-danger">
+            @{
+                if(ViewBag.Reaction == "")
+                {
+                    @ViewBag.Message;
+                }
+                else
+                {
+                    @ViewBag.Reaction;
+                }
+            }
         </div>
         <div class="row text-center">
-            <div class="col-md-2"></div>
-            <div class="col-md-2 center-block">
-                <form action="/dojodachi/feed" method="post">
-                    <input type="submit" value="Feed" name="Feed" class="btn btn-default"></input>
-                </form>
-            </div>
-            <div class="col-md-2 center-block">
-                <form action="/dojodachi/play" method="post">
-                    <input type="submit" value="Play" name="Play" class="btn btn-default"></input>
-                </form>            
-            </div>
-            <div class="col-md-2 center-block">
-                <form action="/dojodachi/work" method="post">
-                    <input type="submit" value="Work" name="Work" class="btn btn-default"></input>
-                </form>            
-            </div>
-            <div class="col-md-2 center-block">
-                <form action="/dojodachi/sleep" method="post">
-                    <input type="submit" value="Sleep" name="Sleep" class="btn btn-default"></input>
-                </form>            
-            </div>
-            <div class="col-md 2"></div>
+        @{
+            if(ViewBag.Status == "active")
+            {
+                <div class="col-sm-3 center-block">
+                    <form action="/dojodachi/action" method="post">
+                        <input type="submit" value="Feed" name="action" class="btn btn-default btn-play"></input>
+                    </form>
+                </div>
+                <div class="col-sm-3 center-block">
+                    <form action="/dojodachi/action" method="post">
+                        <input type="submit" value="Play" name="action" class="btn btn-default btn-play"></input>
+                    </form>            
+                </div>
+                <div class="col-sm-3 center-block">
+                    <form action="/dojodachi/action" method="post">
+                        <input type="submit" value="Work" name="action" class="btn btn-default btn-play"></input>
+                    </form>            
+                </div>
+                <div class="col-sm-3 center-block">
+                    <form action="/dojodachi/action" method="post">
+                        <input type="submit" value="Sleep" name="action" class="btn btn-default btn-play"></input>
+                    </form>            
+                </div>
+            }
+            else if(ViewBag.Status == "gameover")
+            {
+                <div class="col-sm-12 center-block">
+                    <form action="/dojodachi/reset" method="post">
+                        <input type="submit" value="Play again?" name="Reset" class="btn btn-default btn-play"></input>
+                    </form>
+                </div>
+            }
+        }
         </div>
     </div>
-    <div class="col-md-1"> </div>
+    <div class="col-sm-1"> </div>
 </div>
