@@ -151,3 +151,5 @@ Thumbs.db
 UpgradeLog*.htm
 UpgradeLog*.XML
 x64/
+*/appsettings.json
+csharp/MovieAPI/appsettings.json
