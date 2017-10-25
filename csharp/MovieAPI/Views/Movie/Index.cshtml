@@ -24,8 +24,9 @@
         </div>
         <div class="row text-center">
             <div class="col-sm-3 center-block">
-                <form action="/action" method="post">
-                    <input type="submit" value="Feed" name="action" class="btn btn-default btn-play"></input>
+                @ViewBag.Movie;
+                <form action="/search" method="post">
+                    <input type="submit" value="Princess Bride" name="search" class="btn btn-default btn-play"></input>
                 </form>
             </div>
             <div class="col-sm-3 center-block">          
