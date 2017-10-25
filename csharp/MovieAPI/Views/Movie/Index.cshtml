@@ -13,7 +13,9 @@
             </div>
             <div class="col-sm-10">
                 <form action="/search" method="post" class="form">
-                    <input type="text" value="Search for a movie title" name="search" class="form form-control"></input>
+                    <div class="form-group">
+                        <input type="text" value="Search for a movie title" name="search" class="form form-control"></input>
+                    </div>
                     <input type="submit" value="Submit" name="submit" class="form btn btn-default btn-play"></input>
                 </form>
             </div>
@@ -33,13 +35,13 @@
                             <thead>
                                 <tr>
                                     <td>
-                                        Movie Name
+                                        <h5>Movie Name</h5>
                                     </td>
                                     <td>
-                                        Rating
+                                        <h5>Rating</h5>
                                     </td>
                                     <td>
-                                        Release Date
+                                        <h5>Release Date</h5>
                                     </td>
                                 </tr>
                             </thead>

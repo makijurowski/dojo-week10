@@ -25,6 +25,11 @@ namespace MovieAPI.Controllers
         [Route("")]
         public IActionResult Index()
         {
+            if (ViewData["movie"] != null)
+            {
+                string query = string.Format("INSERT INTO movies (title, rating, release_date) VALUES('{0}', '{1}', {2});", (string)ViewData["movie_name"], (string)ViewData["rating"], (string)ViewData["release_date"]);
+                _dbConnector.Execute(query);
+            }
             // List<Dictionary<string, object>> AllUsers = _dbConnector.Query("SELECT * FROM users");
             return View();
         }
@@ -46,7 +51,7 @@ namespace MovieAPI.Controllers
             ViewData["rating"] = MovieResult["rating"];
             ViewData["release_date"] = (string)MovieResult["release_date"];
 
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         public IActionResult Error()
