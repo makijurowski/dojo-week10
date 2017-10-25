@@ -33,7 +33,7 @@ namespace MovieAPI
                     Dictionary<string, dynamic> JsonResponse = new Dictionary<string, dynamic>
                     {
                         {"movie_name", (string)Movie["title"]},
-                        {"rating", (decimal)Movie["vote_average"]},
+                        {"rating", (string)Movie["vote_average"]},
                         {"release_date", (string)Movie["release_date"]}
                     };
 

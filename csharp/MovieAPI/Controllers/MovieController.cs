@@ -25,12 +25,13 @@ namespace MovieAPI.Controllers
         [Route("")]
         public IActionResult Index()
         {
-            if (ViewData["movie"] != null)
+            if (TempData["movie_name"] != null)
             {
-                string query = string.Format("INSERT INTO movies (title, rating, release_date) VALUES('{0}', '{1}', {2});", (string)ViewData["movie_name"], (string)ViewData["rating"], (string)ViewData["release_date"]);
+                System.Console.WriteLine(TempData["release_date"]);
+                string query = string.Format("INSERT INTO movies (title, rating, release_date) VALUES('{0}', '{1}', '{2}');", TempData["movie_name"], TempData["rating"], TempData["release_date"]);
                 _dbConnector.Execute(query);
             }
-            // List<Dictionary<string, object>> AllUsers = _dbConnector.Query("SELECT * FROM users");
+            List<Dictionary<string, object>> AllMovies = _dbConnector.Query("SELECT * FROM movies");
             return View();
         }
 
@@ -46,10 +47,10 @@ namespace MovieAPI.Controllers
                 }
             ).Wait();
 
-            ViewData["movie"] = MovieResult;
-            ViewData["movie_name"] = (string)MovieResult["movie_name"];
-            ViewData["rating"] = MovieResult["rating"];
-            ViewData["release_date"] = (string)MovieResult["release_date"];
+            //TempData["movie"] = MovieResult;
+            TempData["movie_name"] = (string)MovieResult["movie_name"];
+            TempData["rating"] = MovieResult["rating"];
+            TempData["release_date"] = (string)MovieResult["release_date"];
 
             return RedirectToAction("Index");
         }
