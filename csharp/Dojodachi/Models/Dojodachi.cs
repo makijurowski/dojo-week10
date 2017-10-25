@@ -1,4 +1,4 @@
-namespace DojoDatchi
+namespace Dojodachi
 {
     public class DojodachiPet
     {

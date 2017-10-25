@@ -1,6 +1,6 @@
 using System;
 
-namespace DojoDatchi.Models
+namespace Dojodachi.Models
 {
     public class ErrorViewModel
     {
