@@ -47,7 +47,6 @@ namespace MovieAPI.Controllers
                 }
             ).Wait();
 
-            //TempData["movie"] = MovieResult;
             TempData["movie_name"] = (string)MovieResult["movie_name"];
             TempData["rating"] = MovieResult["rating"];
             TempData["release_date"] = (string)MovieResult["release_date"];
