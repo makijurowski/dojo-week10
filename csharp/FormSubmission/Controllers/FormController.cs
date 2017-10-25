@@ -14,12 +14,12 @@ namespace FormSubmission.Controllers
 {
     public class FormController : Controller
     {
-        [HttpGet]
-        [Route("")]
-        public IActionResult Index()
-        {
-            return View();
-        }
+        // [HttpGet]
+        // [Route("")]
+        // public IActionResult Index()
+        // {
+        //     return View();
+        // }
 
         [HttpGet]
         [Route("error")]

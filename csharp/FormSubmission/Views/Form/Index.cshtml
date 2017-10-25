@@ -2,4 +2,31 @@
     ViewData["Title"] = "Home Page";
 }
 
-Hi hi hi hi
+<div class="row">
+    <div class="container">
+        @model FormSubmission.Models.Users
+        <form asp-controller="Users" asp-action="Register" method="post">
+            <div class="form-group">
+                <label asp-for="first_name"></label>
+                <input type="text" asp-for="first_name" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="last_name"></label>
+                <input type="text" asp-for="last_name" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="age"></label>
+                <input type="number" asp-for="age" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="email"></label>
+                <input type="email" asp-for="email" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="password"></label>
+                <input type="password" password" class="form-control"/>
+            </div>
+            <button type="submit" class="btn btn-default">Create new Users</button>
+        </form>
+    </div>
+</div>

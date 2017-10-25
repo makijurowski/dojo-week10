@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div class="container">
+        <h1>Enter your information</h1>
+        <ul>
+            @{
+                foreach(var field in ViewBag.ModelFields)
+                {
+                    if (field.Errors.Count > 0)
+                    {
+                        <li>@field.Errors[0].ErrorMessage</li>
+                    }
+                }
+            }
+        </ul>
+        @model FormSubmission.Models.Users
+        <form asp-controller="Users" asp-action="process" method="post">
+            <div class="form-group">
+                <label asp-for="FirstName">FirstName</label>
+                <input type="text" asp-for="FirstName" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName">LastName</label>
+                <input type="text" asp-for="LastName" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="Age">Age</label>
+                <input type="number" asp-for="Age" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email">Email</label>
+                <input type="email" asp-for="Email" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password">Password</label>
+                <input type="password" asp-for="Password" class="form-control"/>
+            </div>
+            <button type="submit" class="btn btn-default">Create New Users</button>
+        </form>
+    </div>
+</div>
