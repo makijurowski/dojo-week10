@@ -36,7 +36,7 @@ namespace MovieAPI
             }
             else
             {
-                App.UseExceptionHandler("/Home/Error");
+                App.UseExceptionHandler("/Movie/Error");
             }
             App.UseSession();
             App.UseStaticFiles();

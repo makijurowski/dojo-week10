@@ -5,10 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MovieAPI.Models;
+using MovieAPI.Connectors;
 
 namespace MovieAPI.Controllers
 {
-    public class HomeController : Controller
+    public class MovieController : Controller
     {
         public IActionResult Index()
         {
