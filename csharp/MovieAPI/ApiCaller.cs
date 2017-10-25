@@ -30,17 +30,14 @@ namespace MovieAPI
                     // ORIGINAL: Dictionary<string, object> JsonResponse = JsonConvert.DeserializeObject<Dictionary<string, object>>(StringResponse);
 
                     JObject tokens = JObject.Parse(StringResponse);
-
-                    // [] results = (array)tokens.SelectToken("results");
-                    // List<string> movie_choice = new List<string>();
-
                     JArray resultsFromAPI = (JArray)tokens.SelectToken("results");
 
-                    var movie_title = resultsFromAPI[0]["title"];
+                    var Movie = resultsFromAPI[0];
 
                     Dictionary<string, dynamic> JsonResponse = new Dictionary<string, dynamic>
                     {
-                        {"title", movie_title},
+                        {"movie_name", (string)Movie["title"]},
+                        {"rating", (decimal)Movie["vote_average"]},
                     };
 
                     // Finally, execute our callback, passing it the response we got.

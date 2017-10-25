@@ -24,7 +24,13 @@
         </div>
         <div class="row text-center">
             <div class="col-sm-3 center-block">
-                @ViewBag.Movie;
+                @{
+                    if(@ViewData["movie_name"] != null)
+                    {
+                        @ViewData["movie_name"]
+                        @ViewData["rating"]
+                    }
+                }
                 <form action="/search" method="post">
                     <input type="submit" value="Princess Bride" name="search" class="btn btn-default btn-play"></input>
                 </form>

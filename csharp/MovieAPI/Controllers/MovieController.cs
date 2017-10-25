@@ -33,22 +33,17 @@ namespace MovieAPI.Controllers
         [Route("search")]
         public IActionResult QueryMovie(string search)
         {
-            var MovieInfo = new Dictionary<string, object>();
-            var MovieInfo2 = new Dictionary<string, dynamic>();
+            var MovieResult = new Dictionary<string, dynamic>();
 
             WebRequest.GetMovieDataAsync(search, ApiResponse =>
                 {
-                    MovieInfo = ApiResponse;
-                    MovieInfo2 = ApiResponse;
+                    MovieResult = ApiResponse;
                 }
             ).Wait();
 
-            ViewBag.Movie = MovieInfo2["title"];
-            ViewBag.Rating = MovieInfo2["rating"];
-            // ViewBag.Movie = MovieInfo;
-
-            ViewData["Message"] = "Your application description page.";
-
+            ViewData["movie_name"] = (string)MovieResult["movie_name"];
+            ViewData["rating"] = MovieResult["rating"];
+            
             return View("Index");
         }
 
