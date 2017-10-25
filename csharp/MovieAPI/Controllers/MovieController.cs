@@ -41,9 +41,11 @@ namespace MovieAPI.Controllers
                 }
             ).Wait();
 
+            ViewData["movie"] = MovieResult;
             ViewData["movie_name"] = (string)MovieResult["movie_name"];
             ViewData["rating"] = MovieResult["rating"];
-            
+            ViewData["release_date"] = (string)MovieResult["release_date"];
+
             return View("Index");
         }
 

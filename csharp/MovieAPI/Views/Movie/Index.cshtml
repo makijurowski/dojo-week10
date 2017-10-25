@@ -9,13 +9,15 @@
             <h1 class="text-center alert alert-default">MovieAPI</h1>
         </div>
         <div class="row text-center well well-lg">
-            <div class="col-sm-3">
+            <div class="col-sm-1">
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-10">
+                <form action="/search" method="post" class="form">
+                    <input type="text" value="Search for a movie title" name="search" class="form form-control"></input>
+                    <input type="submit" value="Submit" name="submit" class="form btn btn-default btn-play"></input>
+                </form>
             </div>
-            <div class="col-sm-3">
-            </div>
-            <div class="col-sm-3">
+            <div class="col-sm-1">
             </div>
         </div>
         <div class="row text-center">
@@ -23,25 +25,40 @@
         <div class="row text-center alert alert-default">
         </div>
         <div class="row text-center">
-            <div class="col-sm-3 center-block">
+            <div class="col-sm-12">
                 @{
-                    if(@ViewData["movie_name"] != null)
+                    if(@ViewData["movie"] != null)
                     {
-                        @ViewData["movie_name"]
-                        @ViewData["rating"]
+                        <table class="table container">
+                            <thead>
+                                <tr>
+                                    <td>
+                                        Movie Name
+                                    </td>
+                                    <td>
+                                        Rating
+                                    </td>
+                                    <td>
+                                        Release Date
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>               
+                                <tr>
+                                    <td>
+                                        @ViewData["movie_name"]
+                                    </td>
+                                    <td>
+                                        @ViewData["rating"]
+                                    </td>
+                                    <td>
+                                        @ViewData["release_date"]
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     }
                 }
-                <form action="/search" method="post">
-                    <input type="submit" value="Princess Bride" name="search" class="btn btn-default btn-play"></input>
-                </form>
-            </div>
-            <div class="col-sm-3 center-block">          
-            </div>
-            <div class="col-sm-3 center-block">         
-            </div>
-            <div class="col-sm-3 center-block">        
-            </div>
-            <div class="col-sm-12 center-block">
             </div>
         </div>
     </div>

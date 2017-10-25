@@ -25,10 +25,6 @@ namespace MovieAPI
                     string StringResponse = await Response.Content.ReadAsStringAsync(); // Read in the response as a string.
 
                     // Then parse the result into JSON and convert to a dictionary that we can use.
-                    // DeserializeObject will only parse the top level object, depending on the API we may need to dig deeper and continue deserializing
-                    
-                    // ORIGINAL: Dictionary<string, object> JsonResponse = JsonConvert.DeserializeObject<Dictionary<string, object>>(StringResponse);
-
                     JObject tokens = JObject.Parse(StringResponse);
                     JArray resultsFromAPI = (JArray)tokens.SelectToken("results");
 
@@ -38,6 +34,7 @@ namespace MovieAPI
                     {
                         {"movie_name", (string)Movie["title"]},
                         {"rating", (decimal)Movie["vote_average"]},
+                        {"release_date", (string)Movie["release_date"]}
                     };
 
                     // Finally, execute our callback, passing it the response we got.
