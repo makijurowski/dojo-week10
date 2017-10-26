@@ -7,9 +7,14 @@ function BST() {
     this.right = null;
   };
 
+  this.printNode = function printNode(node) {
+    console.log(node.val);
+  };
+
   this.addNode = function addNode(val) {
-    var node = new this.NewNode(val);
-    var currentNode = root;
+    let node = new this.NewNode(val);
+    // this.printNode(node);
+    let currentNode = root;
     if (!root) {
       root = node;
       return;
@@ -33,11 +38,34 @@ function BST() {
     }
     return;
   };
+
+  this.levelTraversal = function levelTraversal(printNode) {
+    let queue = [root];
+    let currentNode = root;
+    while (queue) {
+      currentNode = queue.shift();
+      if (!currentNode) {
+        return;
+      }
+      this.printNode(currentNode);
+      if (currentNode.left) {
+        queue.push(currentNode.left);
+      }
+
+      if (currentNode.right) {
+        queue.push(currentNode.right);
+      }
+    }
+  };
 }
 
 var newTree = new BST();
 newTree.addNode(5);
-newTree.addNode(10);
 newTree.addNode(3);
-newTree.addNode(20);
+newTree.addNode(7);
 newTree.addNode(2);
+newTree.addNode(4);
+newTree.addNode(6);
+newTree.addNode(8);
+
+newTree.levelTraversal();
