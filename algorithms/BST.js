@@ -56,8 +56,8 @@ function BST() {
         queue.push(currentNode.right);
       }
     }
-  };
-};
+  }
+}
 
 var newTree = new BST();
 newTree.addNode(5);
