@@ -51,10 +51,4 @@ namespace LoginRegistration.Models
         [DataType(DataType.Password)]
         public string LogPassword { get; set; }
     }
-
-    public class HomePageUsers
-    {
-        public RegisterUser Register { get; set; }
-        public LoginUser Login { get; set; }
-    }
 }
