@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
-namespace TheWall
+namespace LoginRegistration
 {
     public class Startup
     {
@@ -16,34 +17,39 @@ namespace TheWall
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; private set; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public Startup(IHostingEnvironment env)
         {
-            services.AddMvc();
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(env.ContentRootPath)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSession();
+            services.AddMvc();
+            services.Configure<MySqlOptions>(Configuration.GetSection("DBInfo"));
+            services.AddScoped<DbConnector>();
+        }
+
+        public void Configure(IApplicationBuilder App, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        {
+            loggerFactory.AddConsole();
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                App.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                App.UseExceptionHandler("/error");
             }
-
-            app.UseStaticFiles();
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            App.UseSession();
+            App.UseStaticFiles();
+            App.UseMvc();
         }
     }
 }

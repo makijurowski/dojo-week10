@@ -1,0 +1,35 @@
+@model LoginRegistration.Models.RegisterUser
+
+<h3 class="thin">Register</h3>
+
+<form asp-action="Register" asp-controller="User" method="post" id="register">
+    <span asp-validation-for="FirstName"></span>
+    <div class="input-field">
+        <label asp-for="FirstName"></label>
+        <input class="form-control validate" asp-for="FirstName">
+    </div>
+    <span asp-validation-for="LastName"></span>
+    <div class="input-field">
+            <label asp-for="LastName"></label>
+            <input class="form-control validate" asp-for="LastName">
+        </div>
+    <span asp-validation-for="Email"></span>
+    <div class="input-field">
+        <span asp-validation-for="Email"></span>
+        <label asp-for="Email"></label>
+        <input class="form-control validate" asp-for="Email">
+    </div>
+    <span asp-validation-for="Password"></span>
+    <div class="input-field">
+        <span asp-validation-for="Password"></span>
+        <label asp-for="Password"></label>
+        <input class="form-control validate" asp-for="Password">
+    </div>
+    <span asp-validation-for="Confirm"></span>
+    <div class="input-field">
+        <span asp-validation-for="Confirm"></span>
+        <label asp-for="Confirm"></label>
+        <input class="form-control validate" asp-for="Confirm">
+    </div>
+    <button class="btn waves-effect waves-light btn amber darken-2" type="submit" name="action">Register</button>
+</form>
