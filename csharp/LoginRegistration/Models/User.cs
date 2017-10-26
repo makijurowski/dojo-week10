@@ -8,13 +8,15 @@ namespace LoginRegistration.Models
     public class RegisterUser : BaseEntity
     {
         [Required]
-        [Display(Name="First Name")]
         [MinLength(2)]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Name can only contain letters")]
+        [Display(Name="First Name")]
         public string FirstName { get; set; }
 
         [Required]
-        [Display(Name="Last Name")]
         [MinLength(2)]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Name can only contain letters")]
+        [Display(Name="Last Name")]
         public string LastName { get; set; }
 
         [Required]
@@ -24,15 +26,15 @@ namespace LoginRegistration.Models
         public string Email { get; set; }
 
         [Required]
-        [Display(Name="Password")]
         [MinLength(6)]
         [DataType(DataType.Password)]
+        [Display(Name="Password")]
         public string Password { get; set; }
 
         [Required]
-        [Display(Name="Confirm")]
         [DataType(DataType.Password)]
-        [Compare("Password")]
+        [Compare("Password", ErrorMessage = "Password confirmation must match.")]
+        [Display(Name="Confirm Password")]
         public string Confirm { get; set; }
     }
 
@@ -50,7 +52,7 @@ namespace LoginRegistration.Models
         public string LogPassword { get; set; }
     }
 
-    public class HomePageUSers
+    public class HomePageUsers
     {
         public RegisterUser Register { get; set; }
         public LoginUser Login { get; set; }

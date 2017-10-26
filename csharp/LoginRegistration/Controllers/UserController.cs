@@ -35,7 +35,7 @@ namespace LoginRegistration.Controllers
         {
             if(ModelState.IsValid)
             {
-                RegisterUser(user);
+                Registration(user);
                 return RedirectToAction("Success");
             }
             return View("Index");
@@ -49,15 +49,12 @@ namespace LoginRegistration.Controllers
             List<Dictionary<string, object>> Users = _dbConnector.Query(loginQuery);
             PasswordHasher<LoginUser> hasher = new PasswordHasher<LoginUser>();
 
-            // If user exists...
             if((Users.Count == 0 || user.LogPassword == null) || hasher.VerifyHashedPassword(user, (string)Users[0]["password"], user.LogPassword) == 0)
             {
-                // But wrong information!
                 ModelState.AddModelError("LogEmail", "Invalid email or password entered.");
             }
             if(ModelState.IsValid)
             {
-                // Login user to session
                 HttpContext.Session.SetInt32("id", (int)Users[0]["id"]);
                 return RedirectToAction("Success");
             }
@@ -70,7 +67,8 @@ namespace LoginRegistration.Controllers
         {
             return "Success!";
         }
-        public void RegisterUser(RegisterUser user)
+
+        public void Registration(RegisterUser user)
         {
             PasswordHasher<RegisterUser> hasher = new PasswordHasher<RegisterUser>();
             string hashed = hasher.HashPassword(user, user.Password);
