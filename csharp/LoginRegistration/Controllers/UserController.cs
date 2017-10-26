@@ -15,7 +15,12 @@ namespace LoginRegistration.Controllers
 {
     public class UserController : Controller
     {
-        public UserController() { }
+        private readonly DbConnector _dbConnector;
+
+        public UserController(DbConnector connect)
+        {
+            _dbConnector = connect;
+        }
 
         [HttpGet]
         [Route("")]
@@ -40,7 +45,8 @@ namespace LoginRegistration.Controllers
         [Route("login")]
         public IActionResult Login(LoginUser user)
         {
-            List<Dictionary<string, object>> Users = DbConnector.Query($"SELECT id, password FROM Users WHERE email = '{user.LogEmail}'");
+            string loginQuery = string.Format($"SELECT id, password FROM Users WHERE email = '{user.LogEmail}'");
+            List<Dictionary<string, object>> Users = _dbConnector.Query(loginQuery);
             PasswordHasher<LoginUser> hasher = new PasswordHasher<LoginUser>();
 
             // If user exists...
@@ -70,9 +76,9 @@ namespace LoginRegistration.Controllers
             string hashed = hasher.HashPassword(user, user.Password);
 
             string query = $@"INSERT INTO Users (first_name, last_name, email, password, created_at, updated_at)
-                            VALUES('{user.FirstName}', '{user.LastName}', '{user.Email}', '{hashed}', Now(), Now());
+                            VALUES('{user.FirstName}', '{user.LastName}', '{user.Email}', '{hashed}', NOW(), NOW());
                             SELECT LAST_INSERT_ID() as id";
-            HttpContext.Session.SetInt32("id", Convert.ToInt32(DbConnector.Query(query)[0]["id"]));
+            HttpContext.Session.SetInt32("id", Convert.ToInt32(_dbConnector.Query(query)[0]["id"]));
         }
     }
 }
