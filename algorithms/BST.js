@@ -57,7 +57,7 @@ function BST() {
       }
     }
   };
-}
+};
 
 var newTree = new BST();
 newTree.addNode(5);
