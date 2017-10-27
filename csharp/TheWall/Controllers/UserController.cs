@@ -17,18 +17,12 @@ namespace LoginRegistration.Controllers
     public class UserController : Controller
     {
         private readonly DbConnector _dbConnector;
+        public static int? UserId { get; set; }
 
         public UserController(DbConnector connect)
         {
             _dbConnector = connect;
         }
-
-        // [HttpGet]
-        // [Route("")]
-        // public IActionResult Index()
-        // {
-        //     return View();
-        // }
 
         [HttpPost]
         [Route("submit")]
@@ -46,7 +40,7 @@ namespace LoginRegistration.Controllers
         [Route("login")]
         public IActionResult Login(LoginUser user)
         {
-            string loginQuery = string.Format($"SELECT id, password FROM User WHERE email = '{user.LogEmail}'");
+            string loginQuery = string.Format($"SELECT id, first_name, password FROM Users WHERE email = '{user.LogEmail}'");
             List<Dictionary<string, object>> User = _dbConnector.Query(loginQuery);
             PasswordHasher<LoginUser> hasher = new PasswordHasher<LoginUser>();
 
@@ -56,7 +50,12 @@ namespace LoginRegistration.Controllers
             }
             if(ModelState.IsValid)
             {
+                HttpContext.Session.SetString("name", (string)User[0]["first_name"]);
                 HttpContext.Session.SetInt32("id", (int)User[0]["id"]);
+                int? UserId = HttpContext.Session.GetInt32("id");
+                string UserName = HttpContext.Session.GetString("name");
+                TempData["UserName"] = UserName;
+                TempData["UserId"] = UserId;
                 return RedirectToAction("Index", "Wall");
             }
             return View("Index");

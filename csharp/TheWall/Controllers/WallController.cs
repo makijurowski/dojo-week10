@@ -1,5 +1,6 @@
 ﻿using LoginRegistration;
 using LoginRegistration.Models;
+using LoginRegistration.Controllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -28,14 +29,35 @@ namespace TheWall.Controllers
         [Route("")]
         public IActionResult Index()
         {
+            TempData["UserName"] = TempData["UserName"];
+            TempData["UserId"] = TempData["UserId"];
+            System.Console.WriteLine("\n\n\n\n");
+            System.Console.WriteLine(TempData["UserName"]);
+            System.Console.WriteLine(TempData["UserId"]);
+            System.Console.WriteLine("\n\n\n\n");
             return View();
         }
 
-        // [HttpGet]
-        // [Route("error")]
-        // public IActionResult Error()
-        // {
-        //     return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        // }
+        [HttpPost]
+        [Route("post")]
+        public IActionResult Post(Message post)
+        {
+            if(ModelState.IsValid)
+            {
+                CreatePost(post);
+                TempData["UserId"] = TempData["UserId"];
+                return RedirectToAction("Index", "Wall");
+            }
+        return View("Index");
+        }
+
+        public void CreatePost(dynamic post)
+        {
+            int userId = (int)HttpContext.Session.GetInt32("id");
+            string query = $@"INSERT INTO Messages (user_id, message, created_at, updated_at)
+                            VALUES('{userId}', '{post.UserMessage}', NOW(), NOW());
+                            SELECT LAST_INSERT_ID() as id";
+            _dbConnector.Execute(query);
+        }
     }
 }

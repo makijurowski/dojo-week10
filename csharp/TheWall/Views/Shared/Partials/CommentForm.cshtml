@@ -1,11 +1,10 @@
 @model TheWall.Models.Comment 
 
-<h6 class="thin">Leave a Comment</h6>
 <form asp-action="post" asp-controller="Wall" method="post" id="post">
     <span asp-validation-for="UserComment"></span>
     <div class="input-field">
-        <label asp-for="UserComment"></label>
-        <textarea class="form-control validate" asp-for="UserComment"></textarea>
+        <label asp-for="UserComment">Leave a Comment:</label>
+        <textarea class="materialize-textarea validate" asp-for="UserComment" data-length="1000"></textarea>
     </div>
     <button class="btn waves-effect waves-light btn amber darken-2" type="submit" name="action">Post Comment</button>
 </form>
