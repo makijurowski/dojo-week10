@@ -1,8 +1,26 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    // HttpContext.Session.SetInt32("message_id", (int)Message[0]["id"]);
+    // List<Dictionary<string, dynamic>> Messages = HttpContext.Session.GetObjectFromJsonList<Dictionary<string, dynamic>>("results");
+    var Messages = @ViewBag.Messages;
 }
+
 
 <div class="row section">
     <div class="col s12 m6 l5" id="message-form">@Html.Partial("./Partials/MessageForm")</div>
     <div class="col s12 m6 l5" id="comment-form">@Html.Partial("./Partials/CommentForm")</div>
+</div>
+
+<div class="row section">
+    @{
+        foreach (var message in Messages)
+        {
+            foreach (KeyValuePair<string, dynamic> dict in message)
+            {
+                <div>
+                    @dict.Key : @dict.Value
+                </div>
+            }
+        }
+    }
 </div>

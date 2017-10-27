@@ -6,6 +6,8 @@ namespace TheWall.Models
 {
     public class Comment : BaseEntity
     {
+        public int MessageId { get; set; }
+        
         [Required]
         [MinLength(2)]
         [Display(Name = "Comment")]
