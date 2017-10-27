@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using TheWall;
 
 namespace LoginRegistration.Controllers
 {
@@ -22,12 +23,12 @@ namespace LoginRegistration.Controllers
             _dbConnector = connect;
         }
 
-        [HttpGet]
-        [Route("")]
-        public IActionResult Index()
-        {
-            return View();
-        }
+        // [HttpGet]
+        // [Route("")]
+        // public IActionResult Index()
+        // {
+        //     return View();
+        // }
 
         [HttpPost]
         [Route("submit")]
@@ -65,7 +66,7 @@ namespace LoginRegistration.Controllers
         [Route("success")]
         public string Success()
         {
-            return "Success!";
+            return "Success! You are registered/logged in.";
         }
 
         public void Registration(RegisterUser user)
