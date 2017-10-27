@@ -55,11 +55,6 @@ namespace TheWall.Controllers
         [Route("PostComment")]
         public IActionResult PostComment(Comment post)
         {
-            if (TempData["message_id"] == null)
-            {
-                TempData["message_id"] = 1;
-            }
-            int MessageId = (int)TempData["message_id"];
             if(ModelState.IsValid)
             {
                 CreateComment(post);
@@ -89,7 +84,8 @@ namespace TheWall.Controllers
         public void CreateComment(dynamic post)
         {
             int? userId = (int)HttpContext.Session.GetInt32("id");
-            int messageId = (int)TempData["message_id"];
+            // int messageId = (int)TempData["message_id"];
+            int messageId = (int)post.MessageId;
             string query = $@"INSERT INTO Comments (message_id, user_id, comment, created_at, updated_at)
                             VALUES('{messageId}', '{userId}', '{post.UserComment}', NOW(), NOW());
                             SELECT LAST_INSERT_ID() as id";
