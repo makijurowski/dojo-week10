@@ -1,11 +1,13 @@
 @model TheWall.Models.Comment 
-@Html.Hidden("MessageId")
 
-<form asp-action="post" asp-controller="Wall" method="post" id="post">
-    <span asp-validation-for="UserComment"></span>
-    <div class="input-field">
-        <label asp-for="UserComment">Leave a Comment:</label>
-        <textarea class="materialize-textarea validate" asp-for="UserComment" data-length="1000"></textarea>
-    </div>
-    <button class="btn waves-effect waves-light btn amber darken-2" type="submit" name="action">Post Comment</button>
-</form>
+@{
+    <form asp-action="PostComment" asp-controller="Wall" method="post" id="post">
+        <span asp-validation-for="UserComment"></span>
+        <div class="input-field">
+            <label asp-for="UserComment">Leave a Comment:</label>
+            <textarea class="materialize-textarea validate" asp-for="UserComment" data-length="1000"></textarea>
+        </div>
+        <input type="hidden" asp-for="PostComment.MessageId" value="@message["message_id"]">
+        <button class="btn waves-effect waves-light btn amber darken-2" type="submit" name="action">Post Comment</button>
+    </form>
+}

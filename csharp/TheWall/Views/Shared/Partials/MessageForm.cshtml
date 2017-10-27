@@ -1,6 +1,6 @@
 @model TheWall.Models.Message 
 
-<form asp-action="post" asp-controller="Wall" method="post" id="post">
+<form asp-action="PostMessage" asp-controller="Wall" method="post" id="post">
     <span asp-validation-for="UserMessage"></span>
     <div class="input-field">
         <label asp-for="UserMessage">Post a Message:</label>
