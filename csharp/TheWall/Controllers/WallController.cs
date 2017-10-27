@@ -35,6 +35,7 @@ namespace TheWall.Controllers
             System.Console.WriteLine(TempData["UserId"]);
             System.Console.WriteLine("\n\n\n\n");
             ViewBag.Messages = AllMessages();
+            ViewBag.Comments = AllComments();
             return View();
         }
 
@@ -44,8 +45,8 @@ namespace TheWall.Controllers
         {
             if(ModelState.IsValid)
             {
-                CreatePost(post);
                 TempData["UserId"] = TempData["UserId"];
+                CreatePost(post);
                 return RedirectToAction("Index", "Wall");
             }
         return View("Index");
@@ -57,8 +58,8 @@ namespace TheWall.Controllers
         {
             if(ModelState.IsValid)
             {
-                CreateComment(post);
                 TempData["UserId"] = TempData["UserId"];
+                CreateComment(post);
                 return RedirectToAction("Index", "Wall");
             }
         return View("Index");
@@ -67,6 +68,14 @@ namespace TheWall.Controllers
         public dynamic AllMessages()
         {
             string query = "SELECT * FROM Messages";
+            var results = new List<Dictionary<string, dynamic>>();
+            results = _dbConnector.Query(query);
+            return results;
+        }
+
+        public dynamic AllComments()
+        {
+            string query = "SELECT * FROM Comments";
             var results = new List<Dictionary<string, dynamic>>();
             results = _dbConnector.Query(query);
             return results;
@@ -85,9 +94,8 @@ namespace TheWall.Controllers
         {
             int? userId = (int)HttpContext.Session.GetInt32("id");
             // int messageId = (int)TempData["message_id"];
-            int messageId = (int)post.MessageId;
             string query = $@"INSERT INTO Comments (message_id, user_id, comment, created_at, updated_at)
-                            VALUES('{messageId}', '{userId}', '{post.UserComment}', NOW(), NOW());
+                            VALUES('{post.MessageId}', '{userId}', '{post.UserComment}', NOW(), NOW());
                             SELECT LAST_INSERT_ID() as id";
             _dbConnector.Execute(query);
         }

@@ -1,37 +1,66 @@
-﻿@{
+﻿@using TheWall.Models
+
+@{
     ViewData["Title"] = "Home Page";
-    // HttpContext.Session.SetInt32("message_id", (int)Message[0]["id"]);
-    // List<Dictionary<string, dynamic>> Messages = HttpContext.Session.GetObjectFromJsonList<Dictionary<string, dynamic>>("results");
     var Messages = @ViewBag.Messages;
+    var Comments = @ViewBag.Comments;
+}
+@{
+    if (TempData["UserId"] == null)
+    {
+        <div class="section">
+            <h3>You must be logged in to post a message.</h3>
+        </div>
+    }
+    else
+    {
+        <div class="row section">
+            <div class="col s12" id="message-form">@Html.Partial("Partials/MessageForm")</div>
+        </div>
+    }
 }
 
-
-<div class="row section">
-    <div class="col s12 m6 l5" id="message-form">@Html.Partial("Partials/MessageForm")</div>
-</div>
-
-<div class="row section">
+    <div class="row section">
     @{
         foreach (var message in Messages)
         {
-            TempData["message_id"] = @message["id"];
-            ViewBag.message_id = @message["id"];
-            <div class="row">
-                 <div class="col s12 m5">
-                    <div class="card-panel">
-                        <span class="black-text">
-                            @message["message"]
-                        </span>
+            Comment new_comment = new Comment();
+            new_comment.MessageId = @message["id"];
+
+            <ul class="collapsible" data-collapsible="accordian">
+                <li>
+                    <div class="collapsible-header active">Message by @message["user_id"] at @message["created_at"]</div>
+                    <div class="collapsible-body">
+                        @message["message"]
                     </div>
-                    <div class="card-action">
+                </li>
+                <li>
+                    <div class="collapsible-header">View comments</div>
+                    <div class="collapsible-body">Comments here</div>
+                </li>
+                <li>
+                    <div class="collapsible-header">Add comment</div>
+                    <div class="collapsible-body">
+                        @Html.Partial("Partials/CommentForm", new_comment)
+                    </div>
+                </li>
+            </ul>
+<!-- 
+            <div class="card">
+                <div class="card-stacked">
+                    <div class="card-content">
                         Posted by User No. @message["user_id"] at @message["created_at"].
                     </div>
+                    <div class="card-action collapsible" data-collapsible="accordian">
+                        <ul class="collapsible" data-collapsible="accordian">
+                            <li>
+                                <div class="collapsible-header">Add a comment</div>
+                                <div class="collapsible-body" id="comment-form">@Html.Partial("Partials/CommentForm", new_comment)</div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class ="row">
-                <div class="col s12 m6 l5" id="comment-form">@Html.Partial("Partials/CommentForm")</div>
-               
-            </div>
+            </div> -->
         }
     }
-</div>
+    </div>
