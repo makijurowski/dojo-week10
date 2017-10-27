@@ -37,7 +37,7 @@ namespace LoginRegistration.Controllers
             if(ModelState.IsValid)
             {
                 Registration(user);
-                return RedirectToAction("Success");
+                return RedirectToAction("Index", "Wall");
             }
             return View("Index");
         }
@@ -46,27 +46,28 @@ namespace LoginRegistration.Controllers
         [Route("login")]
         public IActionResult Login(LoginUser user)
         {
-            string loginQuery = string.Format($"SELECT id, password FROM Users WHERE email = '{user.LogEmail}'");
-            List<Dictionary<string, object>> Users = _dbConnector.Query(loginQuery);
+            string loginQuery = string.Format($"SELECT id, password FROM User WHERE email = '{user.LogEmail}'");
+            List<Dictionary<string, object>> User = _dbConnector.Query(loginQuery);
             PasswordHasher<LoginUser> hasher = new PasswordHasher<LoginUser>();
 
-            if((Users.Count == 0 || user.LogPassword == null) || hasher.VerifyHashedPassword(user, (string)Users[0]["password"], user.LogPassword) == 0)
+            if((User.Count == 0 || user.LogPassword == null) || hasher.VerifyHashedPassword(user, (string)User[0]["password"], user.LogPassword) == 0)
             {
                 ModelState.AddModelError("LogEmail", "Invalid email or password entered.");
             }
             if(ModelState.IsValid)
             {
-                HttpContext.Session.SetInt32("id", (int)Users[0]["id"]);
-                return RedirectToAction("Success");
+                HttpContext.Session.SetInt32("id", (int)User[0]["id"]);
+                return RedirectToAction("Index", "Wall");
             }
             return View("Index");
         }
 
         [HttpGet]
-        [Route("success")]
-        public string Success()
+        [Route("logout")]
+        public IActionResult Logout()
         {
-            return "Success! You are registered/logged in.";
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Wall");
         }
 
         public void Registration(RegisterUser user)
