@@ -30,24 +30,24 @@
             Comment new_comment = new Comment();
             new_comment.MessageId = @message["message_id"];
             <div class="row section">
-                <ul class="collapsible" data-collapsible="accordian">
+                <ul class="collapsible hoverable" data-collapsible="accordian" id="dark-border">
                     <li>
-                        <div class="collapsible-header active">Message by @message["message_username"] at @message["message_created_at"]</div>
-                        <div class="collapsible-body">
+                        <div class="collapsible-header active dark-primary-color accent-light-text-active">Message by @message["message_username"] on @message["message_created_at"].ToString("dddd, MMMM dd, yyyy @ h:mm:ss tt")</div>
+                        <div class="collapsible-body default-primary-color light-primary-color-text "> 
                             @message["message"];
                         </div>
                     </li>
                     <li>
-                        <div class="collapsible-header">View comments</div>
-                        <div class="collapsible-body">
+                        <div class="collapsible-header dark-primary-color accent-light-text">View comments</div>
+                        <div class="collapsible-body default-primary-color light-primary-color-text">
                             @message["comment"]
                         </div>
                     </li>
                     @if (ViewBag.UserId != null)
                     {   
                     <li>
-                        <div class="collapsible-header">Add comment</div>
-                        <div class="collapsible-body">
+                        <div class="collapsible-header dark-primary-color accent-shade-text">Add comment</div>
+                        <div class="collapsible-body default-primary-color white-text">
                             @Html.Partial("Partials/CommentForm", new_comment)
                         </div>
                     </li>

@@ -33,6 +33,7 @@ namespace TheWall.Controllers
             ViewBag.Messages = AllMessages();
             ViewBag.Comments = AllComments();
             ViewBag.AllData = new List<Dictionary<string, dynamic>>(_dbConnector.Query("SELECT * FROM all_data"));
+            
             return View();
         }
 

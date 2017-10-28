@@ -72,7 +72,8 @@ namespace LoginRegistration.Controllers
             HttpContext.Session.Clear();
             ViewBag.UserId = null;
             ViewBag.UserName = null;
-            return RedirectToAction("Index", "Wall");
+            // return RedirectToAction("Index", "Wall");
+            return View("Index");
         }
 
         public void Registration(RegisterUser user)
