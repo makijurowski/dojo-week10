@@ -32,7 +32,7 @@ namespace TheWall.Controllers
             ViewBag.UserId = HttpContext.Session.GetInt32("id");
             ViewBag.Messages = AllMessages();
             ViewBag.Comments = AllComments();
-            ViewBag.AllData = new List<Dictionary<string, dynamic>>(_dbConnector.Query("SELECT * FROM Comments"));
+            ViewBag.AllData = new List<Dictionary<string, dynamic>>(_dbConnector.Query("SELECT * FROM all_data"));
             return View();
         }
 

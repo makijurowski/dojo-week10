@@ -70,6 +70,8 @@ namespace LoginRegistration.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
+            ViewBag.UserId = null;
+            ViewBag.UserName = null;
             return RedirectToAction("Index", "Wall");
         }
 

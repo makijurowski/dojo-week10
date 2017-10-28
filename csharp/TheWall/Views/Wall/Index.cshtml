@@ -5,6 +5,7 @@
     ViewData["Title"] = "Home Page";
     var Messages = @ViewBag.Messages;
     var Comments = @ViewBag.Comments;
+    var Posts = @ViewBag.AllData;
 }
 @{
     if (ViewBag.UserId == null)
@@ -24,14 +25,14 @@
 
     <div class="row section">
 
-        @foreach (var message in Messages)
+        @foreach (var message in Posts)
         {
             Comment new_comment = new Comment();
-            new_comment.MessageId = @message["id"];
+            new_comment.MessageId = @message["message_id"];
             <div class="row section">
                 <ul class="collapsible" data-collapsible="accordian">
                     <li>
-                        <div class="collapsible-header active">Message by @message["user_id"] at @message["created_at"]</div>
+                        <div class="collapsible-header active">Message by @message["message_username"] at @message["message_created_at"]</div>
                         <div class="collapsible-body">
                             @message["message"];
                         </div>
@@ -39,7 +40,7 @@
                     <li>
                         <div class="collapsible-header">View comments</div>
                         <div class="collapsible-body">
-                            Comment
+                            @message["comment"]
                         </div>
                     </li>
                     @if (ViewBag.UserId != null)
