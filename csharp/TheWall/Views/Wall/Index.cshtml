@@ -1,4 +1,5 @@
 ﻿@using TheWall.Models
+@using Microsoft.AspNetCore.Http
 
 @{
     ViewData["Title"] = "Home Page";
@@ -6,7 +7,7 @@
     var Comments = @ViewBag.Comments;
 }
 @{
-    if (TempData["UserId"] == null)
+    if (ViewBag.UserId == null)
     {
         <div class="section">
             <h3>You must be logged in to post a message.</h3>
@@ -15,52 +16,42 @@
     else
     {
         <div class="row section">
+            <h3>Hello @ViewBag.UserName</h3>
             <div class="col s12" id="message-form">@Html.Partial("Partials/MessageForm")</div>
         </div>
     }
 }
 
     <div class="row section">
-    @{
-        foreach (var message in Messages)
+
+        @foreach (var message in Messages)
         {
             Comment new_comment = new Comment();
             new_comment.MessageId = @message["id"];
-
-            <ul class="collapsible" data-collapsible="accordian">
-                <li>
-                    <div class="collapsible-header active">Message by @message["user_id"] at @message["created_at"]</div>
-                    <div class="collapsible-body">
-                        @message["message"]
-                    </div>
-                </li>
-                <li>
-                    <div class="collapsible-header">View comments</div>
-                    <div class="collapsible-body">Comments here</div>
-                </li>
-                <li>
-                    <div class="collapsible-header">Add comment</div>
-                    <div class="collapsible-body">
-                        @Html.Partial("Partials/CommentForm", new_comment)
-                    </div>
-                </li>
-            </ul>
-<!-- 
-            <div class="card">
-                <div class="card-stacked">
-                    <div class="card-content">
-                        Posted by User No. @message["user_id"] at @message["created_at"].
-                    </div>
-                    <div class="card-action collapsible" data-collapsible="accordian">
-                        <ul class="collapsible" data-collapsible="accordian">
-                            <li>
-                                <div class="collapsible-header">Add a comment</div>
-                                <div class="collapsible-body" id="comment-form">@Html.Partial("Partials/CommentForm", new_comment)</div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div> -->
+            <div class="row section">
+                <ul class="collapsible" data-collapsible="accordian">
+                    <li>
+                        <div class="collapsible-header active">Message by @message["user_id"] at @message["created_at"]</div>
+                        <div class="collapsible-body">
+                            @message["message"];
+                        </div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header">View comments</div>
+                        <div class="collapsible-body">
+                            Comment
+                        </div>
+                    </li>
+                    @if (ViewBag.UserId != null)
+                    {   
+                    <li>
+                        <div class="collapsible-header">Add comment</div>
+                        <div class="collapsible-body">
+                            @Html.Partial("Partials/CommentForm", new_comment)
+                        </div>
+                    </li>
+                    }
+                </ul>
+            </div>
         }
-    }
     </div>

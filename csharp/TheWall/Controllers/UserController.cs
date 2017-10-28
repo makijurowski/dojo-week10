@@ -31,6 +31,12 @@ namespace LoginRegistration.Controllers
             if(ModelState.IsValid)
             {
                 Registration(user);
+                string userQuery = string.Format($"SELECT * FROM Users WHERE email = '{user.Email}'");
+                List<Dictionary<string, object>> User = _dbConnector.Query(userQuery);
+                HttpContext.Session.SetString("name", (string)User[0]["first_name"]);
+                HttpContext.Session.SetInt32("id", (int)User[0]["id"]);
+                ViewBag.UserId = HttpContext.Session.GetInt32("id");
+                ViewBag.UserName = HttpContext.Session.GetString("name");
                 return RedirectToAction("Index", "Wall");
             }
             return View("Index");
@@ -52,10 +58,8 @@ namespace LoginRegistration.Controllers
             {
                 HttpContext.Session.SetString("name", (string)User[0]["first_name"]);
                 HttpContext.Session.SetInt32("id", (int)User[0]["id"]);
-                int? UserId = HttpContext.Session.GetInt32("id");
-                string UserName = HttpContext.Session.GetString("name");
-                TempData["UserName"] = UserName;
-                TempData["UserId"] = UserId;
+                ViewBag.UserId = HttpContext.Session.GetInt32("id");
+                ViewBag.UserName = HttpContext.Session.GetString("name");
                 return RedirectToAction("Index", "Wall");
             }
             return View("Index");

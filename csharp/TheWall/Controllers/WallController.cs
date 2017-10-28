@@ -28,14 +28,11 @@ namespace TheWall.Controllers
         [Route("")]
         public IActionResult Index()
         {
-            TempData["UserName"] = TempData["UserName"];
-            TempData["UserId"] = TempData["UserId"];
-            System.Console.WriteLine("\n\n\n\n");
-            System.Console.WriteLine(TempData["UserName"]);
-            System.Console.WriteLine(TempData["UserId"]);
-            System.Console.WriteLine("\n\n\n\n");
+            ViewBag.UserName = HttpContext.Session.GetString("name");
+            ViewBag.UserId = HttpContext.Session.GetInt32("id");
             ViewBag.Messages = AllMessages();
             ViewBag.Comments = AllComments();
+            ViewBag.AllData = new List<Dictionary<string, dynamic>>(_dbConnector.Query("SELECT * FROM Comments"));
             return View();
         }
 
@@ -45,7 +42,8 @@ namespace TheWall.Controllers
         {
             if(ModelState.IsValid)
             {
-                TempData["UserId"] = TempData["UserId"];
+                ViewBag.UserName = HttpContext.Session.GetString("name");
+                ViewBag.UserId = HttpContext.Session.GetInt32("id");
                 CreatePost(post);
                 return RedirectToAction("Index", "Wall");
             }
@@ -58,7 +56,8 @@ namespace TheWall.Controllers
         {
             if(ModelState.IsValid)
             {
-                TempData["UserId"] = TempData["UserId"];
+                ViewBag.UserName = HttpContext.Session.GetString("name");
+                ViewBag.UserId = HttpContext.Session.GetInt32("id");
                 CreateComment(post);
                 return RedirectToAction("Index", "Wall");
             }
