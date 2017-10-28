@@ -3,8 +3,8 @@
 <form asp-action="PostMessage" asp-controller="Wall" method="post" id="post">
     <span asp-validation-for="UserMessage"></span>
     <div class="input-field">
-        <label asp-for="UserMessage">Post a Message:</label>
-        <textarea class="materialize-textarea form-control validate" asp-for="UserMessage" data-length="1000"></textarea>
+        <label asp-for="UserMessage" class="dark-primary-color-text">Post a New Message:</label>
+        <textarea class="materialize-textarea form-control validate black-text" asp-for="UserMessage" data-length="1000"></textarea>
     </div>
-    <button class="btn accent-button" id="accent-button" type="submit" name="action">Post Message</button>
+    <button class="btn accent-button right" id="accent-button" type="submit" name="action">Post Message</button>
 </form>

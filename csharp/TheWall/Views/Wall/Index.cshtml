@@ -11,14 +11,16 @@
     if (ViewBag.UserId == null)
     {
         <div class="section">
-            <h3>You must be logged in to post a message.</h3>
+            <h3 class="thin">You must be logged in to post a message.</h3>
         </div>
     }
     else
     {
         <div class="row section">
-            <h3>Hello @ViewBag.UserName</h3>
-            <div class="col s12" id="message-form">@Html.Partial("Partials/MessageForm")</div>
+            <div class="col s12">
+                <h3 class="thin">Hello @ViewBag.UserName, welcome to The Wall.</h3>
+                <div id="message-form center">@Html.Partial("Partials/MessageForm")</div>
+            </div>
         </div>
     }
 }
@@ -29,26 +31,40 @@
         {
             Comment new_comment = new Comment();
             new_comment.MessageId = @message["message_id"];
-            <div class="row section">
+            <div class="col s12">
                 <ul class="collapsible hoverable" data-collapsible="accordian" id="dark-border">
                     <li>
-                        <div class="collapsible-header active dark-primary-color accent-light-text-active">Message by @message["message_username"] on @message["message_created_at"].ToString("dddd, MMMM dd, yyyy @ h:mm:ss tt")</div>
-                        <div class="collapsible-body default-primary-color light-primary-color-text "> 
-                            @message["message"];
+                        <div class="collapsible-header active dark-primary-color accent-light-text-active"><span class="center">Message by @message["message_username"] on @message["message_created_at"].ToString("dddd, MMMM dd, yyyy @ h:mm:ss tt")</span></div>
+                        <div class="collapsible-body default-primary-color light-primary-color-text"> 
+                            <div class "collapse-open">
+                                <div class="collapse-inner">
+                                    <p class="body-content">
+                                        @message["message"]
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </li>
                     <li>
-                        <div class="collapsible-header dark-primary-color accent-light-text">View comments</div>
+                        <div class="collapsible-header dark-primary-color accent-light-text small-title">View comments</div>
                         <div class="collapsible-body default-primary-color light-primary-color-text">
-                            @message["comment"]
+                            <div class="collapse-inner">
+                                <p class="body-content">
+                                    @message["comment"]
+                                </p>
+                            </div>
                         </div>
                     </li>
                     @if (ViewBag.UserId != null)
                     {   
                     <li>
-                        <div class="collapsible-header dark-primary-color accent-shade-text">Add comment</div>
+                        <div class="collapsible-header dark-primary-color accent-shade-text small-title">Add comment</div>
                         <div class="collapsible-body default-primary-color white-text">
-                            @Html.Partial("Partials/CommentForm", new_comment)
+                            <div class="collapse-inner">
+                                <p class="body-content">
+                                    @Html.Partial("Partials/CommentForm", new_comment)
+                                </p>
+                            </div>
                         </div>
                     </li>
                     }

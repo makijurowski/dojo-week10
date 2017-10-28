@@ -5,10 +5,10 @@
         <span asp-validation-for="UserComment"></span>
         <div class="input-field dark-primary-color-text">
             <label asp-for="UserComment">Leave a Comment:</label>
-            <textarea class="materialize-textarea validate" asp-for="UserComment" data-length="1000"></textarea>
+            <textarea class="materialize-textarea validate white-text" asp-for="UserComment" data-length="1000"></textarea>
         </div>
         @{
         <input type="hidden" asp-for="MessageId" value="@Model.MessageId">
         }
-        <button class="btn accent-button" id="accent-button" type="submit" name="action">Post Comment</button>
+        <button class="btn accent-button right" id="accent-button" type="submit" name="action">Post Comment</button>
     </form>
