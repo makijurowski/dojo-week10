@@ -2,17 +2,17 @@
 
 - This project consists of a simple messaging board for users to exchange posts and comments.
 
-- Fully functional login/registration system for users (uses email).
+- Fully functional login/registration system for users (uses hashed password matching and email for authentication).
 
-- Content restricted for page viewers who are not logged in.
+- Posting new content restricted for page viewers who are not logged in.
 
 - Uses ASP.NET Core 2.0 MVC with mySQL database backend (SQL files available under Models > SQL).
 
-- Customizable CSS logo and generated favicon.
+- Customizable CSS logo and provided default favicon.
 
-- Optimized for viewing on all screensizes, including desktop, tablet, and mobile.
+- Optimized for viewing on all screen sizes, including desktop, tablet, and mobile.
 
-- Styled using Materialize CSS and jQuery.
+- Styled using the Materialize CSS framework and jQuery.
 
 ### Known Issues
 - Unused dependencies
