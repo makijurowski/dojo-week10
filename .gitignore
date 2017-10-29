@@ -112,7 +112,6 @@ _UpgradeReport_Files/
 **/App_Data/*.sdf
 **/node_modules/*
 **/packages/*
-**/wwwroot/*
 */*/.vscode/
 *~
 /_ReSharper.*
@@ -137,7 +136,6 @@ DocProject/Help/Html2
 ehthumbs.db
 Generated_Code/
 GeneratedArtifacts/
-Icon?
 ipch/
 ModelManifest.xml
 modulesbin/
@@ -153,3 +151,8 @@ UpgradeLog*.XML
 x64/
 */appsettings.json
 csharp/MovieAPI/appsettings.json
+csharp/CallingCard/wwwroot/*
+csharp/FormSubmission/wwwroot/*
+csharp/PokeInfo/wwwroot/*
+csharp/RapperAPI/wwwroot/*
+csharp/TimeDisplay/wwwroot/*
