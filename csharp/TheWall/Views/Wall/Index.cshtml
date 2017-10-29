@@ -10,7 +10,7 @@
 @{
     if (ViewBag.UserId == null)
     {
-        <div class="section">
+        <div class="section center-align">
             <h3 class="thin">You must be logged in to post a message.</h3>
         </div>
     }
@@ -34,7 +34,9 @@
             <div class="col s12">
                 <ul class="collapsible hoverable" data-collapsible="accordian" id="dark-border">
                     <li>
-                        <div class="collapsible-header active dark-primary-color accent-light-text-active"><span class="center">Message by @message["message_username"] on @message["message_created_at"].ToString("dddd, MMMM dd, yyyy @ h:mm:ss tt")</span></div>
+                        <div class="collapsible-header active dark-primary-color accent-light-text-active">
+                            <span class="center">Message by @message["message_username"] on @message["message_created_at"].ToString("dddd, MMMM dd, yyyy @ h:mm:ss tt")</span>
+                        </div>
                         <div class="collapsible-body default-primary-color light-primary-color-text"> 
                             <div class "collapse-open">
                                 <div class="collapse-inner">

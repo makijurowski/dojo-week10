@@ -1,14 +1,15 @@
 @model TheWall.Models.Comment 
 
-
+<div class="comment-box">
     <form asp-action="PostComment" asp-controller="Wall" method="post" id="post">
         <span asp-validation-for="UserComment"></span>
         <div class="input-field dark-primary-color-text">
-            <label asp-for="UserComment">Leave a Comment:</label>
+            <label asp-for="UserComment" class="white-text">Leave a Comment:</label>
             <textarea class="materialize-textarea validate white-text" asp-for="UserComment" data-length="1000"></textarea>
         </div>
         @{
-        <input type="hidden" asp-for="MessageId" value="@Model.MessageId">
+            <input type="hidden" asp-for="MessageId" value="@Model.MessageId">
         }
         <button class="btn accent-button right" id="accent-button" type="submit" name="action">Post Comment</button>
     </form>
+</div>

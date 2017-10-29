@@ -25,7 +25,7 @@ namespace LoginRegistration.Controllers
         }
 
         [HttpPost]
-        [Route("submit")]
+        [Route("Submit")]
         public IActionResult Register(RegisterUser user)
         {
             if(ModelState.IsValid)
@@ -43,7 +43,7 @@ namespace LoginRegistration.Controllers
         }
 
         [HttpPost]
-        [Route("login")]
+        [Route("Login")]
         public IActionResult Login(LoginUser user)
         {
             string loginQuery = string.Format($"SELECT id, first_name, password FROM Users WHERE email = '{user.LogEmail}'");
@@ -65,17 +65,16 @@ namespace LoginRegistration.Controllers
             return View("Index");
         }
 
-        [HttpGet]
-        [Route("logout")]
+        [HttpPost]
+        [Route("Logout")]
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
             ViewBag.UserId = null;
             ViewBag.UserName = null;
-            //return RedirectToAction("Index", "Wall");
-            return View("Index");
+            return RedirectToAction("Index", "Wall", "#text1");
+            //return View("Index");
         }
-
 
         public void Registration(RegisterUser user)
         {

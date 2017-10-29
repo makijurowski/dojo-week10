@@ -30,10 +30,9 @@ namespace TheWall.Controllers
         {
             ViewBag.UserName = HttpContext.Session.GetString("name");
             ViewBag.UserId = HttpContext.Session.GetInt32("id");
-            ViewBag.Messages = AllMessages();
-            ViewBag.Comments = AllComments();
+            ViewBag.Messages = new List<Dictionary<string, dynamic>>(_dbConnector.Query("SELECT * FROM Messages"));
+            ViewBag.Comments = new List<Dictionary<string, dynamic>>(_dbConnector.Query("SELECT * FROM Comments"));
             ViewBag.AllData = new List<Dictionary<string, dynamic>>(_dbConnector.Query("SELECT * FROM all_data"));
-            
             return View();
         }
 
@@ -65,22 +64,6 @@ namespace TheWall.Controllers
         return View("Index");
         }
 
-        public dynamic AllMessages()
-        {
-            string query = "SELECT * FROM Messages";
-            var results = new List<Dictionary<string, dynamic>>();
-            results = _dbConnector.Query(query);
-            return results;
-        }
-
-        public dynamic AllComments()
-        {
-            string query = "SELECT * FROM Comments";
-            var results = new List<Dictionary<string, dynamic>>();
-            results = _dbConnector.Query(query);
-            return results;
-        }
-
         public void CreatePost(dynamic post)
         {
             int? userId = (int)HttpContext.Session.GetInt32("id");
@@ -93,7 +76,6 @@ namespace TheWall.Controllers
         public void CreateComment(dynamic post)
         {
             int? userId = (int)HttpContext.Session.GetInt32("id");
-            // int messageId = (int)TempData["message_id"];
             string query = $@"INSERT INTO Comments (message_id, user_id, comment, created_at, updated_at)
                             VALUES('{post.MessageId}', '{userId}', '{post.UserComment}', NOW(), NOW());
                             SELECT LAST_INSERT_ID() as id";
