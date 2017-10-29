@@ -1,0 +1,20 @@
+@{
+    ViewData["Title"] = "Logout";
+}
+
+@if (@ViewBag.UserName == null)
+{
+    <div class="row section">
+        <div class="col s12 m6 l5" id="register-form">@Html.Partial("./Partials/RegisterForm")</div>
+        <div class="col s0 m1 l2"></div>
+        <div class="col s12 m6 l5" id="Login-form">@Html.Partial("./Partials/LoginForm")</div>
+    </div>
+}
+@if (@ViewBag.UserName != null)
+{
+    <div class="row section">
+        <form asp-action="Logout" asp-controller="User" method="post" id="Logout">
+            <button class="btn accent-button center" id="accent-button" type="submit" name="action">Click to Logout</button>
+        </form>
+    </div>
+}

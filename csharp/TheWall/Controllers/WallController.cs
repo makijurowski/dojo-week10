@@ -30,9 +30,29 @@ namespace TheWall.Controllers
         {
             ViewBag.UserName = HttpContext.Session.GetString("name");
             ViewBag.UserId = HttpContext.Session.GetInt32("id");
-            ViewBag.Messages = new List<Dictionary<string, dynamic>>(_dbConnector.Query("SELECT * FROM Messages"));
-            ViewBag.Comments = new List<Dictionary<string, dynamic>>(_dbConnector.Query("SELECT * FROM Comments"));
-            ViewBag.AllData = new List<Dictionary<string, dynamic>>(_dbConnector.Query("SELECT * FROM all_data"));
+            ViewBag.AllUsers = new List<Dictionary<string, dynamic>>(_dbConnector.Query("SELECT * FROM Users"));
+            
+            List<Dictionary<string, dynamic>> Messages = new List<Dictionary<string, dynamic>>(_dbConnector.Query("SELECT * FROM Messages"));
+            List<Dictionary<string, dynamic>> Comments = new List<Dictionary<string, dynamic>>(_dbConnector.Query("SELECT * FROM Comments"));
+            Dictionary<int, dynamic> Sorted_Comments = new Dictionary<int, dynamic>();
+
+            foreach (dynamic comment in Comments)
+            {
+                int id = (int)comment["message_id"];
+                if (Sorted_Comments.ContainsKey(id) == false)
+                {
+                    Sorted_Comments.Add(id, new List<dynamic> {comment});
+                    Messages[id - 1].Add("Sorted_Comments", Sorted_Comments[id]);
+                }
+                else
+                {
+                    Sorted_Comments[id].Add(comment);
+                    Messages[id - 1]["Sorted_Comments"] = Sorted_Comments[id];    
+                }
+            }
+
+            ViewBag.Messages = Messages;
+            ViewBag.SortedComments = Sorted_Comments;
             return View();
         }
 
@@ -44,7 +64,11 @@ namespace TheWall.Controllers
             {
                 ViewBag.UserName = HttpContext.Session.GetString("name");
                 ViewBag.UserId = HttpContext.Session.GetInt32("id");
-                CreatePost(post);
+                int? userId = (int)HttpContext.Session.GetInt32("id");
+                string query = $@"INSERT INTO Messages (user_id, message, created_at, updated_at)
+                            VALUES('{ViewBag.UserId}', '{post.UserMessage}', NOW(), NOW());
+                            SELECT LAST_INSERT_ID() as id";
+                _dbConnector.Execute(query);
                 return RedirectToAction("Index", "Wall");
             }
         return View("Index");
@@ -58,28 +82,14 @@ namespace TheWall.Controllers
             {
                 ViewBag.UserName = HttpContext.Session.GetString("name");
                 ViewBag.UserId = HttpContext.Session.GetInt32("id");
-                CreateComment(post);
+                int? userId = (int)HttpContext.Session.GetInt32("id");
+                string query = $@"INSERT INTO Comments (message_id, user_id, comment, created_at, updated_at)
+                            VALUES('{post.MessageId}', '{ViewBag.UserId}', '{post.UserComment}', NOW(), NOW());
+                            SELECT LAST_INSERT_ID() as id";
+                _dbConnector.Execute(query);
                 return RedirectToAction("Index", "Wall");
             }
         return View("Index");
-        }
-
-        public void CreatePost(dynamic post)
-        {
-            int? userId = (int)HttpContext.Session.GetInt32("id");
-            string query = $@"INSERT INTO Messages (user_id, message, created_at, updated_at)
-                            VALUES('{userId}', '{post.UserMessage}', NOW(), NOW());
-                            SELECT LAST_INSERT_ID() as id";
-            _dbConnector.Execute(query);
-        }
-
-        public void CreateComment(dynamic post)
-        {
-            int? userId = (int)HttpContext.Session.GetInt32("id");
-            string query = $@"INSERT INTO Comments (message_id, user_id, comment, created_at, updated_at)
-                            VALUES('{post.MessageId}', '{userId}', '{post.UserComment}', NOW(), NOW());
-                            SELECT LAST_INSERT_ID() as id";
-            _dbConnector.Execute(query);
         }
     }
 }

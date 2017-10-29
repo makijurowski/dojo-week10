@@ -22,13 +22,21 @@
         <div class="nav-content container">
         <ul class="tabs tabs-fixed-width dark-primary-color light-primary-text">
             <li class="tab"><a class="active accent-light-text" href="#test1">The Wall</a></li>
-            <li class="tab"><a class="light-primary-text" href="#test2">Register</a></li>
-            <li class="tab"><a class="light-primary-text" href="#test3">Login</a></li>
-            <!-- <li class="tab light-primary-text">@Html.ActionLink("Logout", "User", "Logout", "#test1")</li> -->
+            @if (@ViewBag.UserName == null)
+            {
+                <li class="tab"><a class="light-primary-text" href="#test2">Register</a></li>
+                <li class="tab"><a class="light-primary-text" href="#test3">Login</a></li>
+                <li class="tab disabled"><a class="light-primary-text tooltipped" href="#test4" data-position="bottom" data-delay="50" data-tooltip="You must be logged in to logout.">Logout</a></li>
+            }
+            @if (@ViewBag.UserName != null)
+            {
+                <li class="tab disabled"><a class="light-primary-text tooltipped" href="#test2" data-position="bottom" data-delay="50" data-tooltip="You must be logged out to register.">Register</a></li>
+                <li class="tab disabled"><a class="light-primary-text tooltipped" href="#test3" data-position="bottom" data-delay="50" data-tooltip="You must be logged out to login.">Login</a></li>
+                <li class="tab"><a class="light-primary-text" href="#test4">Logout</a></li>
+            }
         </ul>
         </div>
     </nav>
-
     <div class="container">
         <div class="row">
             <div id="test1" class="section">
@@ -41,12 +49,14 @@
             </div>
             <div id="test3" class="section center-align">
                 <div class="col m2 l2"></div>
-                <div class="col s12 m8 l8 center-align" id="Login-form">@Html.Partial("./Partials/LoginForm")</div>
+                <div class="col s12 m8 l8 center-align" id="login-form">@Html.Partial("./Partials/LoginForm")</div>
                 <div class="col m2 l2"></div>
+            </div>
+            <div id="test4" class="section center-align">
+                <div class="col s12 center-align" id="logout-forms">@Html.Partial("./Partials/LogoutForms")</div>
             </div>
         </div>
     </div>
-
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/materialize/js/materialize.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>

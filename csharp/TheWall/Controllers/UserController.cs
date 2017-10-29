@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TheWall;
+using TheWall.Controllers;
 
 namespace LoginRegistration.Controllers
 {
@@ -25,12 +26,20 @@ namespace LoginRegistration.Controllers
         }
 
         [HttpPost]
-        [Route("Submit")]
+        [Route("Register")]
         public IActionResult Register(RegisterUser user)
         {
             if(ModelState.IsValid)
             {
-                Registration(user);
+                // Register new user
+                PasswordHasher<RegisterUser> hasher = new PasswordHasher<RegisterUser>();
+                string hashed = hasher.HashPassword(user, user.Password);
+
+                string query = $@"INSERT INTO Users (first_name, last_name, email, password, created_at, updated_at)
+                            VALUES('{user.FirstName}', '{user.LastName}', '{user.Email}', '{hashed}', NOW(), NOW());
+                            SELECT LAST_INSERT_ID() as id";
+                HttpContext.Session.SetInt32("id", Convert.ToInt32(_dbConnector.Query(query)[0]["id"]));
+                // Confirm by getting userinfo
                 string userQuery = string.Format($"SELECT * FROM Users WHERE email = '{user.Email}'");
                 List<Dictionary<string, object>> User = _dbConnector.Query(userQuery);
                 HttpContext.Session.SetString("name", (string)User[0]["first_name"]);
@@ -72,19 +81,7 @@ namespace LoginRegistration.Controllers
             HttpContext.Session.Clear();
             ViewBag.UserId = null;
             ViewBag.UserName = null;
-            return RedirectToAction("Index", "Wall", "#text1");
-            //return View("Index");
-        }
-
-        public void Registration(RegisterUser user)
-        {
-            PasswordHasher<RegisterUser> hasher = new PasswordHasher<RegisterUser>();
-            string hashed = hasher.HashPassword(user, user.Password);
-
-            string query = $@"INSERT INTO Users (first_name, last_name, email, password, created_at, updated_at)
-                            VALUES('{user.FirstName}', '{user.LastName}', '{user.Email}', '{hashed}', NOW(), NOW());
-                            SELECT LAST_INSERT_ID() as id";
-            HttpContext.Session.SetInt32("id", Convert.ToInt32(_dbConnector.Query(query)[0]["id"]));
+            return RedirectToAction("Index", "Wall");
         }
     }
 }
