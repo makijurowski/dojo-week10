@@ -7,17 +7,20 @@ namespace LoginRegistration.Models
 
     public class RegisterUser : BaseEntity
     {
+        [Key]
+        public long Id { get; set; }
+
         [Required]
         [MinLength(2)]
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Name can only contain letters")]
         [Display(Name="First Name")]
-        public string FirstName { get; set; }
+        public string First_Name { get; set; }
 
         [Required]
         [MinLength(2)]
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Name can only contain letters")]
         [Display(Name="Last Name")]
-        public string LastName { get; set; }
+        public string Last_Name { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]

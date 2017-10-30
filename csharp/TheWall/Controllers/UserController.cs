@@ -1,4 +1,4 @@
-using LoginRegistration;
+using LoginRegistration.Factory;
 using LoginRegistration.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -17,12 +17,46 @@ namespace LoginRegistration.Controllers
 {
     public class UserController : Controller
     {
+        private readonly RegisterUserFactory userFactory;
         private readonly DbConnector _dbConnector;
         public static int? UserId { get; set; }
 
         public UserController(DbConnector connect)
         {
             _dbConnector = connect;
+            userFactory = new RegisterUserFactory();
+        }
+
+        [HttpGet]
+        [Route("Index")]
+        public IActionResult Index()
+        {
+            ViewBag.UserName = HttpContext.Session.GetString("name");
+            ViewBag.UserId = HttpContext.Session.GetInt32("id");
+            ViewBag.AllUsers = new List<Dictionary<string, dynamic>>(_dbConnector.Query("SELECT * FROM Users"));
+
+            List<Dictionary<string, dynamic>> Messages = new List<Dictionary<string, dynamic>>(_dbConnector.Query("SELECT * FROM Messages"));
+            List<Dictionary<string, dynamic>> Comments = new List<Dictionary<string, dynamic>>(_dbConnector.Query("SELECT * FROM Comments"));
+            Dictionary<int, dynamic> Sorted_Comments = new Dictionary<int, dynamic>();
+
+            foreach (dynamic comment in Comments)
+            {
+                int id = (int)comment["message_id"];
+                if (Sorted_Comments.ContainsKey(id) == false)
+                {
+                    Sorted_Comments.Add(id, new List<dynamic> { comment });
+                    Messages[id - 1].Add("Sorted_Comments", Sorted_Comments[id]);
+                }
+                else
+                {
+                    Sorted_Comments[id].Add(comment);
+                    Messages[id - 1]["Sorted_Comments"] = Sorted_Comments[id];
+                }
+            }
+
+            ViewBag.Messages = Messages;
+            ViewBag.SortedComments = Sorted_Comments;
+            return View();
         }
 
         [HttpPost]
@@ -31,24 +65,23 @@ namespace LoginRegistration.Controllers
         {
             if(ModelState.IsValid)
             {
-                // Register new user
-                PasswordHasher<RegisterUser> hasher = new PasswordHasher<RegisterUser>();
-                string hashed = hasher.HashPassword(user, user.Password);
-
-                string query = $@"INSERT INTO Users (first_name, last_name, email, password, created_at, updated_at)
-                            VALUES('{user.FirstName}', '{user.LastName}', '{user.Email}', '{hashed}', NOW(), NOW());
-                            SELECT LAST_INSERT_ID() as id";
-                HttpContext.Session.SetInt32("id", Convert.ToInt32(_dbConnector.Query(query)[0]["id"]));
-                // Confirm by getting userinfo
-                string userQuery = string.Format($"SELECT * FROM Users WHERE email = '{user.Email}'");
-                List<Dictionary<string, object>> User = _dbConnector.Query(userQuery);
-                HttpContext.Session.SetString("name", (string)User[0]["first_name"]);
-                HttpContext.Session.SetInt32("id", (int)User[0]["id"]);
-                ViewBag.UserId = HttpContext.Session.GetInt32("id");
-                ViewBag.UserName = HttpContext.Session.GetString("name");
+                userFactory.Add(user);
+                ViewBag.RegisteredUsers = userFactory.FindAll();
+                ViewBag.User = userFactory.FindByEmail(user.Email);
+                ViewBag.UserId = ViewBag.User.Id;
+                HttpContext.Session.SetString("name", (string)user.First_Name);
+                HttpContext.Session.SetInt32("id", (int)ViewBag.UserId);
                 return RedirectToAction("Index", "Wall");
             }
-            return View("Index");
+            return Redirect(Url.Action("Index", "Wall") + "#test2");
+        }
+
+        [HttpGet]
+        [Route("Home")]
+        public IActionResult Home()
+        {
+            ViewBag.RegisteredUsers = userFactory.FindAll();
+            return RedirectToAction("Index", "Wall");
         }
 
         [HttpPost]
@@ -71,7 +104,7 @@ namespace LoginRegistration.Controllers
                 ViewBag.UserName = HttpContext.Session.GetString("name");
                 return RedirectToAction("Index", "Wall");
             }
-            return View("Index");
+            return RedirectToAction("Index", "Wall");
         }
 
         [HttpPost]
